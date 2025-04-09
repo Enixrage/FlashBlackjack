@@ -5,6 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @Controller
 public class GameController {
@@ -38,4 +40,23 @@ public class GameController {
         }
         return "result"; // This will render result.html after the game ends
     }
+
+        private void resetGame() {
+        deck = new Deck();
+        player.resetHand();
+        dealer.resetHand();
+        player.addCard(deck.dealCard());
+        player.addCard(deck.dealCard());   //After new round the game resets
+        dealer.addCard(deck.dealCard());
+        dealer.addCard(deck.dealCard());
+    }
+
+
+
+
+
+
+
+
+
 }
