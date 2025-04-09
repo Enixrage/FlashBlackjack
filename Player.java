@@ -14,6 +14,13 @@ public class Player {
     public void addCard(Card card) {
         hand.add(card);
         score += card.getValue();
+        
+        //Adjust for Aces if score goes over 21
+        int aceCount = (int) hand.stream().filter(c -> c.getRank().equals("A")).count();
+        while (score > 21 && aceCount > 0) {
+            score -= 10; //count Ace as 1 instead of 11
+            aceCount--;
+        }
     }
 
     public int getScore() {
