@@ -17,6 +17,8 @@ public class GameController {
 
     @GetMapping("/")
     public String index(Model model) {
+        resetGame();
+        
         model.addAttribute("playerHand", player.getHand());
         model.addAttribute("playerScore", player.getScore());
         model.addAttribute("dealerHand", dealer.getHand());
