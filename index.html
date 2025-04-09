@@ -1,22 +1,102 @@
-<!--main page-->
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>BlackJack strategies - Main page</title>
-    </head>
-    <body>
-        <header>
-            <h1>Home</h1>
-            <nav>
-                <!--add links to flashcard, game, and records-->
-            </nav>
-        </header>
-        <main>
-            <!--add info about what strategies to play for specific hands afterwards offer two more links that direct user to the flashcards page or the simulated game (make links into images and be clickable)-->
-        </main>
-        <footer>
-            <!--footer stuff-->
-        </footer>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack Game</title>
+    <style>
+        /* General Body and Background */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #006400; /* Poker Table Green */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding-top: 80px; /* Space for the fixed header */
+        }
+
+        /* Header Styling */
+        header {
+            background-color: black;
+            color: white; /* Poker Board Red */
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        header img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        /* Button Styling */
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .button {
+            background-color: black;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            padding: 30px 60px;
+            margin: 10px;
+            border: 2px solid black;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            width: 300px;
+        }
+
+        .button:hover {
+            background-color: white;
+            color: black;
+            border-color: black;
+        }
+        .logo {
+    		width: 80px; /* Adjust the width to make the logo larger */
+        	height: auto; /* Keeps the aspect ratio intact */
+        	filter: brightness(0) invert(1); /* This makes the image white */
+    	}
+
+    </style>
+</head>
+<body>
+
+    <!-- Header with Title and Logo -->
+    <header>
+        <img src="http://18.206.83.67/image.php" alt="Poker Cards Logo" class="logo">
+        <h1>Blackjack Game</h1>
+    </header>
+
+    <!-- Button Section -->
+    <div class="button-container">
+        <button class="button">Play</button>
+        <button class="button">How to Play</button>
+        <button class="button">Settings</button>
+    </div>
+
+</body>
 </html>
