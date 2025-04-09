@@ -35,9 +35,19 @@ public class GameController {
 
     @PostMapping("/stand")
     public String stand(Model model) {
-        while (dealer.getScore() < 17) {
-            dealer.addCard(deck.dealCard());
+        model.addAttribute("playerScore", player.getScore());
+        model.addAttribute("dealerScore", dealer.getScore());
+
+        String result;
+        if (dealer.getScore() > 21 || player.getScore() > dealer.getScore()) {
+            result = "Player wins!";
+        } else if (player.getScore() < dealer.getScore()) {
+            result = "Dealer wins!";
+        } else {
+            result = "It's a tie!";
         }
+        
+        model.addAttribute("resultMessage", result);
         return "result"; // This will render result.html after the game ends
     }
 
@@ -50,13 +60,4 @@ public class GameController {
         dealer.addCard(deck.dealCard());
         dealer.addCard(deck.dealCard());
     }
-
-
-
-
-
-
-
-
-
 }
