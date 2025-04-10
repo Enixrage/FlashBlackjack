@@ -12,7 +12,34 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class GameController {
 
-    @GetMapping("/")
+    @GetMapping("/play")
+    public String play(Model model) {
+
+        // Check if there's already a game state in the session, otherwise create one
+        GameState gameState = (GameState) session.getAttribute("gameState");
+        if (gameState == null) {
+            gameState = new GameState();
+            session.setAttribute("gameState", gameState);
+        }
+        
+        player.resetHand();
+        dealer.resetHand();
+        deck = new Deck(); // start new deck each time
+
+        player.addCard(deck.dealCard());
+        player.addCard(deck.dealCard());
+
+        dealer.addCard(deck.dealCard());
+
+        model.addAttribute("playerHand", player.getHand());
+        model.addAttribute("playerScore", player.getScore());
+        model.addAttribute("dealerHand", dealer.getHand());
+        model.addAttribute("dealerScore", dealer.getScore());
+
+    return "play"; // Renders play.html
+}
+
+    /*@GetMapping("/")
     public String index(HttpSession session, Model model) {
         // Check if there's already a game state in the session, otherwise create one
         GameState gameState = (GameState) session.getAttribute("gameState");
@@ -33,7 +60,7 @@ public class GameController {
         model.addAttribute("dealerScore", gameState.getDealer().getScore());
 
         return "index"; // Render index.html
-    }
+    */}
 
     @PostMapping("/hit")
     public String hit(HttpSession session, Model model) {
