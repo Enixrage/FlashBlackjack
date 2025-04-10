@@ -52,11 +52,14 @@
         }
 
         /* Hover effect for the header title */
-        header h1:hover {
-            filter: invert(1); /* Invert colors on hover */
-            color: black; /* Change text color to black on hover */
-            outline: 2px solid white; /* Add a white outline */
-        }
+header h1 {
+    transition: all 0.3s ease;
+}
+
+header h1:hover {
+    color: black; /* Change text color to black on hover */
+    text-shadow: 0 0 5px white, 0 0 10px white, 0 0 15px white; /* Create white outline effect */
+}
 
         .login-button {
             background-color: black;
