@@ -2,6 +2,14 @@ let deck, playerHand, dealerHand;
 let money = 1000; // Starting money for the player
 let currentBet = 0;
 
+// Map suit symbols to the characters for your image naming convention
+const suitMap = {
+    '♠': 'S',
+    '♥': 'H',
+    '♣': 'C',
+    '♦': 'D'
+};
+
 function createDeck() {
     const suits = ['♠', '♥', '♣', '♦'];
     const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
@@ -22,8 +30,10 @@ function shuffle(deck) {
     return deck;
 }
 
+// Render card image
 function renderCard(card) {
-    const cardImageUrl = `cards.php?card=${card.value}${card.suit.toLowerCase()}`;
+    const suitChar = suitMap[card.suit]; // Convert suit to character for URL
+    const cardImageUrl = `cards.php?card=${card.value}${suitChar}`;
     return `<img class="card" src="${cardImageUrl}" alt="${card.value}${card.suit}">`;
 }
 
