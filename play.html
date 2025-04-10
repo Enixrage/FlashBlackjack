@@ -105,6 +105,43 @@
             filter: brightness(0) invert(1);
         }
 
+        /* Card Styling */
+        .card {
+            width: 60px; /* Adjust the width of the cards */
+            height: auto; /* Maintain aspect ratio */
+            margin: 0 5px; /* Add space between the cards */
+            display: inline-block; /* Align cards next to each other */
+        }
+
+        /* Card Section */
+        .hand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Buttons Section */
+        .button-container {
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: black;
+            color: white;
+            font-size: 20px;
+            padding: 15px 30px;
+            border: 2px solid white;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: white;
+            color: black;
+        }
     </style>
 </head>
 <body>
@@ -117,22 +154,31 @@
     </header>
 
     <div id="game">
-    <div id="dealer" class="hand">
-        <h2>Dealer's Hand</h2>
-        <div id="dealer-cards"></div>
-        <p id="dealer-total"></p>
-    </div>
-    <div id="player" class="hand">
-        <h2>Your Hand</h2>
-        <div id="player-cards"></div>
-        <p id="player-total"></p>
-    </div>
-    <button onclick="hit()">Hit</button>
-    <button onclick="stand()">Stand</button>
-    <p id="result"></p>
+        <!-- Dealer's Hand -->
+        <div id="dealer" class="hand">
+            <h2>Dealer's Hand</h2>
+            <div id="dealer-cards"></div>
+            <p id="dealer-total"></p>
+        </div>
 
-    <p id="balance">Balance: $1000</p>
-    <button onclick="resetGame()">Play Again</button>
+        <!-- Player's Hand -->
+        <div id="player" class="hand">
+            <h2>Your Hand</h2>
+            <div id="player-cards"></div>
+            <p id="player-total"></p>
+        </div>
+
+        <!-- Game Controls -->
+        <div class="button-container">
+            <button onclick="hit()">Hit</button>
+            <button onclick="stand()">Stand</button>
+            <button onclick="doubleDown()">Double Down</button>
+        </div>
+
+        <!-- Result and Balance -->
+        <p id="result"></p>
+        <p id="balance">Balance: $1000</p>
+        <button onclick="resetGame()">Play Again</button>
     </div>
 
     <script src="blackjack.js"></script>
