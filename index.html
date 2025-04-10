@@ -27,7 +27,7 @@
             padding: 20px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center; /* Center everything */
             position: fixed;
             top: 0;
             left: 0;
@@ -40,6 +40,8 @@
             margin: 0;
             font-size: 36px;
             font-weight: bold;
+            display: flex;
+            align-items: center;
         }
 
         header img {
@@ -58,6 +60,9 @@
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
+            position: absolute;
+            right: 20px;
+            top: 20px;
         }
 
         .login-button:hover {
@@ -106,21 +111,22 @@
 
     <!-- Header with Title and Logo -->
     <header>
-        <div class="header">
-            <img src="http://18.206.83.67/image.php" alt="Poker Cards Logo" class="logo">
-            <h1>Blackjack Game</h1>
-        </div>
+        <img src="http://18.206.83.67/image.php" alt="Poker Cards Logo" class="logo">
+        <h1>Blackjack Game</h1>
         <a href="login.html" class="login-button">Login</a>
     </header>
 
     <!-- Button Section -->
     <div class="button-container">
-        <a href="http://18.206.83.67:8080/play">
+        <a href="play.js">
             <button class="button">Play Blackjack</button>
         </a>
-
-        <button class="button">How to Play</button>
-        <button class="button">Settings</button>
+        <a href="flashcards.js">
+            <button class="button">How to Play</button>
+        </a>
+        <a href="settings.html">
+            <button class="button">Settings</button>
+        </a>
     </div>
 
 </body>
