@@ -52,18 +52,18 @@
         }
 
         /* Hover effect for the header title */
-header h1 {
-    transition: all 0.3s ease;
-}
+        header h1 {
+            transition: all 0.3s ease;
+        }
 
-header h1:hover {
-    color: black; /* Change text color to black on hover */
-    text-shadow: 
-        1px 1px 0 white,  /* Sharp white shadow on top-left */
-        -1px -1px 0 white, /* Sharp white shadow on bottom-right */
-        1px -1px 0 white,  /* Sharp white shadow on top-right */
-        -1px 1px 0 white;  /* Sharp white shadow on bottom-left */
-}
+        header h1:hover {
+            color: black; /* Change text color to black on hover */
+            text-shadow: 
+                1px 1px 0 white,  /* Sharp white shadow on top-left */
+                -1px -1px 0 white, /* Sharp white shadow on bottom-right */
+                1px -1px 0 white,  /* Sharp white shadow on top-right */
+                -1px 1px 0 white;  /* Sharp white shadow on bottom-left */
+        }
 
         .login-button {
             background-color: black;
@@ -189,6 +189,12 @@ header h1:hover {
     </style>
 </head>
 <body>
+    <!-- Header with Title and Logo -->
+    <header>
+        <img src="http://18.206.83.67/image.php" alt="Poker Cards Logo" class="logo">
+        <h1>Blackjack Game</h1>
+    </header>
+
     <!-- Bet Placement Page -->
     <div id="bet-container">
         <h2>Place Your Bet</h2>
@@ -238,5 +244,4 @@ header h1:hover {
 
     <script src="blackjack.js"></script>
 </body>
-
 </html>
