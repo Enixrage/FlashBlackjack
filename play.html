@@ -112,7 +112,7 @@
 
         /* Card Styling */
         .card {
-            width: 60px; /* Adjust the width of the cards */
+            width: 100px; /* Adjust the width of the cards */
             height: auto; /* Maintain aspect ratio */
             margin: 0 5px; /* Add space between the cards */
             display: inline-block; /* Align cards next to each other */
@@ -144,6 +144,41 @@
             color: black;
         }
 
+        /* Bet Input Styling */
+        #bet-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #bet-container input {
+            padding: 10px;
+            font-size: 20px;
+            margin-bottom: 10px;
+            border: 2px solid white;
+            border-radius: 8px;
+            background-color: transparent;
+            color: white;
+            width: 200px;
+        }
+
+        #bet-container button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: black;
+            color: white;
+            border: 2px solid white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #bet-container button:hover {
+            background-color: white;
+            color: black;
+        }
+
     </style>
 </head>
 <body>
@@ -155,6 +190,13 @@
     </header>
 
     <div id="game">
+        <!-- Bet Input -->
+        <div id="bet-container">
+            <h2>Place Your Bet</h2>
+            <input type="number" id="bet-input" placeholder="Enter Bet Amount" min="1" step="1">
+            <button onclick="placeBet()">Place Bet</button>
+        </div>
+
         <!-- Dealer's Hand -->
         <div id="dealer" class="hand">
             <h2>Dealer's Hand</h2>
