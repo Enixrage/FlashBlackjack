@@ -1,4 +1,4 @@
-package com.blackjack;
+package com.blackjack.model;
 
 public class Card {
     private String suit;
