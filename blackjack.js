@@ -1,7 +1,6 @@
 let deck, playerHand, dealerHand;
 let money = 1000; // Starting money for the player
 let currentBet = 0;
-let isDoubleDown = false; // Track if player chose to double down
 
 // Map suit symbols to the characters for your image naming convention
 const suitMap = {
@@ -88,18 +87,6 @@ function stand() {
     endGame();
 }
 
-function doubleDown() {
-    if (currentBet * 2 <= money) {
-        currentBet *= 2; // Double the bet
-        isDoubleDown = true; // Flag that the player doubled down
-        playerHand.push(deck.pop()); // Give the player one more card
-        updateUI();
-        endGame();
-    } else {
-        alert("You don't have enough money to double down!");
-    }
-}
-
 function endGame() {
     const playerTotal = calculateTotal(playerHand);
     const dealerTotal = calculateTotal(dealerHand);
@@ -128,18 +115,24 @@ function updateBalanceDisplay() {
 }
 
 function placeBet() {
-    const betInput = document.getElementById('bet-input');
-    const betAmount = parseInt(betInput.value);
-    if (betAmount <= 0 || betAmount > money) {
-        alert("Invalid bet amount!");
+    const betAmount = parseInt(document.getElementById('bet-input').value);
+    
+    // Check if the bet is valid
+    if (isNaN(betAmount) || betAmount <= 0 || betAmount > money) {
+        alert("Invalid bet amount! Please enter a valid bet.");
         return;
     }
+
+    // Deduct the bet from the player's balance
     currentBet = betAmount;
-    money -= currentBet; // Deduct bet from the balance
+    money -= currentBet;
     updateBalanceDisplay();
-    betInput.disabled = true; // Disable the input after placing the bet
-    document.getElementById('place-bet-button').disabled = true; // Disable the bet button
-    dealInitial(); // Deal the initial cards after placing the bet
+
+    // Hide the bet container after the bet is placed
+    document.getElementById('bet-container').style.display = 'none';
+
+    // Start the game by dealing the initial cards
+    dealInitial();
 }
 
 function resetGame() {
@@ -147,16 +140,6 @@ function resetGame() {
     playerHand = [];
     dealerHand = [];
     currentBet = 0;
-    isDoubleDown = false; // Reset double down flag
     updateUI();
-    const betInput = document.getElementById('bet-input');
-    betInput.disabled = false; // Enable bet input for the next round
-    document.getElementById('place-bet-button').disabled = false; // Enable bet button for the next round
-    betInput.value = ''; // Clear the input field
-    document.getElementById('result').textContent = ''; // Clear result text
-    updateBalanceDisplay();
+    document.getElementById('bet-container').style.display = 'block'; // Show bet input again
 }
-
-window.onload = function() {
-    updateBalanceDisplay(); // Ensure balance is displayed
-};
