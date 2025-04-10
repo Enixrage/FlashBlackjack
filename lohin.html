@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Blackjack Game</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #006400;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 100px;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: black;
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .logo {
+            width: 80px;
+            height: auto;
+            filter: brightness(0) invert(1);
+            margin-right: 10px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+        .form-container {
+            background-color: black;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            width: 90%;
+            max-width: 400px;
+            text-align: left;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: white;
+            color: black;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <img src="http://18.206.83.67/image.php" alt="Poker Cards Logo" class="logo">
+        <h1>Blackjack Game</h1>
+    </header>
+
+    <!-- Login Form -->
+    <div class="form-container">
+        <h2>Create Account</h2>
+        <form action="/register" method="POST">
+            <label for="username">Username</label>
+            <input type="text" name="username" required>
+
+            <label for="email">Email</label>
+            <input type="email" name="email" required>
+
+            <label for="password">Password</label>
+            <input type="password" name="password" required>
+
+            <button type="submit" class="submit-btn">Register</button>
+        </form>
+    </div>
+
+</body>
+</html>
