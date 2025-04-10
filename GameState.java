@@ -1,3 +1,5 @@
+package com.blackjack;
+
 public class GameState {
     private Deck deck;
     private Player player;
