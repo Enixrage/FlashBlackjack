@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Blackjack Game</title>
+    <title>Play Blackjack</title>
 </head>
 <body>
-    <h1>Blackjack Game</h1>
+    <h1>Blackjack</h1>
 
-    <h2>Your Hand:</h2>
+    <h2>Your Hand</h2>
     <ul>
         <th:block th:each="card : ${playerHand}">
             <li th:text="${card}"></li>
@@ -14,7 +14,7 @@
     </ul>
     <p>Score: <span th:text="${playerScore}"></span></p>
 
-    <h2>Dealer's Hand:</h2>
+    <h2>Dealer's Hand</h2>
     <ul>
         <th:block th:each="card : ${dealerHand}">
             <li th:text="${card}"></li>
@@ -25,6 +25,7 @@
     <form action="/hit" method="post">
         <button type="submit">Hit</button>
     </form>
+
     <form action="/stand" method="post">
         <button type="submit">Stand</button>
     </form>
