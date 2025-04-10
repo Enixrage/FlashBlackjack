@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { flashcards } from './cards';
+import { flashcards } from '.flashcards.js';
 
 export default function FlashcardApp() {
   const [index, setIndex] = useState(0);
