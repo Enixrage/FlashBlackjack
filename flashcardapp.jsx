@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import { flashcards } from './falshcards';
+=======
+import { flashcards } from '.flashcards.js';
+>>>>>>> e25cd3a86000f95d1478a497601ffa375c9fe04c
 
 export default function FlashcardApp() {
   const [index, setIndex] = useState(0);
