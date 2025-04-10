@@ -3,14 +3,6 @@ let money = 1000; // Starting money for the player
 let currentBet = 0;
 let isDoubleDown = false;
 
-// Map suit symbols to the characters for your image naming convention
-const suitMap = {
-    '♠': 'S',
-    '♥': 'H',
-    '♣': 'C',
-    '♦': 'D'
-};
-
 function createDeck() {
     const suits = ['♠', '♥', '♣', '♦'];
     const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
@@ -33,7 +25,7 @@ function shuffle(deck) {
 
 // Render card image
 function renderCard(card) {
-    const suitChar = suitMap[card.suit]; // Convert suit to character for URL
+    const suitChar = card.suit === '♠' ? 'S' : card.suit === '♥' ? 'H' : card.suit === '♣' ? 'C' : 'D'; // Convert suit to character for URL
     const cardImageUrl = `cards.php?card=${card.value}${suitChar}`;
     return `<img class="card" src="${cardImageUrl}" alt="${card.value}${card.suit}">`;
 }
@@ -128,6 +120,12 @@ function updateBalanceDisplay() {
     document.getElementById('balance').textContent = 'Balance: $' + money;
 }
 
+// Clear the result message when starting a new game
+function clearResult() {
+    document.getElementById('result').textContent = '';
+}
+
+// Place Bet Logic
 function placeBet() {
     const betAmount = parseInt(document.getElementById('bet-input').value);
     
@@ -154,8 +152,10 @@ function resetGame() {
     playerHand = [];
     dealerHand = [];
     currentBet = 0;
+    clearResult(); // Clear any previous result
     updateUI();
     document.getElementById('bet-container').style.display = 'block'; // Show bet input again
+    document.getElementById('game-container').style.display = 'none'; // Hide game content
 }
 
 // Quick bet buttons
