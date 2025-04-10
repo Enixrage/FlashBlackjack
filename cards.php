@@ -19,10 +19,10 @@ $bucket = 'cis4004bucket';
 
 // Check if the 'card' query parameter is set for fetching card images
 if (isset($_GET['card'])) {
-    $card = $_GET['card'];  // Get the card name (e.g., 'A♠', 'J♠')
+    $card = $_GET['card'];  // Get the card name (e.g., 'AS', '10S')
 
     // Define the path or file naming convention for your card images in S3
-    $key = "{$card}.png";  // Assuming cards are stored as 'A♠.png', 'J♠.png', etc.
+    $key = "{$card}.png";  // Assuming cards are stored as 'AS.png', '10S.png', etc.
 
     try {
         // Get the card image from S3
@@ -41,6 +41,6 @@ if (isset($_GET['card'])) {
         // If an error occurs (image not found), output the error message
         echo "Error fetching card image: " . $e->getMessage();
     }
-}
+} 
 
 ?>
