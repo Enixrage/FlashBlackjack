@@ -4,75 +4,74 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
-@@SessionAttributes("gameState")
 public class GameController {
 
-
     @GetMapping("/")
-    public String index(Model model) {
-        GameState gameState = (GameState) model.getAttribute("gameState");
+    public String index(HttpSession session, Model model) {
+        // Check if there's already a game state in the session, otherwise create one
+        GameState gameState = (GameState) session.getAttribute("gameState");
         if (gameState == null) {
             gameState = new GameState();
-            model.addAttribute("gameState", gameState);
+            session.setAttribute("gameState", gameState);
         }
 
-        // Deal cards to players and dealer
-        for (Player player : gameState.getPlayers()) {
-            player.addCard(gameState.getDeck().dealCard());
-            player.addCard(gameState.getDeck().dealCard());
-        }
+        // Deal initial cards to player and dealer
+        gameState.getPlayer().addCard(gameState.getDeck().dealCard());
+        gameState.getPlayer().addCard(gameState.getDeck().dealCard());
         gameState.getDealer().addCard(gameState.getDeck().dealCard());
         gameState.getDealer().addCard(gameState.getDeck().dealCard());
 
-        // Add the hands and scores to the model
-        model.addAttribute("players", gameState.getPlayers());
+        model.addAttribute("playerHand", gameState.getPlayer().getHand());
+        model.addAttribute("playerScore", gameState.getPlayer().getScore());
         model.addAttribute("dealerHand", gameState.getDealer().getHand());
         model.addAttribute("dealerScore", gameState.getDealer().getScore());
 
-        return "index"; // Renders index.html
+        return "index"; // Render index.html
     }
 
     @PostMapping("/hit")
-   public String hit(Model model) {
-        GameState gameState = (GameState) model.getAttribute("gameState");
+    public String hit(HttpSession session, Model model) {
+        GameState gameState = (GameState) session.getAttribute("gameState");
 
-        // You need to track which player is currently making a move.
-        Player currentPlayer = gameState.getPlayers().get(0); // For now, it’s player 1 (you can modify this)
-
-        currentPlayer.addCard(gameState.getDeck().dealCard());
-        if (currentPlayer.getScore() > 21) {
-            return "bust"; // If the player busts
+        gameState.getPlayer().addCard(gameState.getDeck().dealCard());
+        if (gameState.getPlayer().getScore() > 21) {
+            return "bust"; // If player busts
         }
 
-        return "redirect:/";
+        return "redirect:/"; // Redirect back to game page
     }
 
     @PostMapping("/stand")
-   public String stand(Model model) {
-        GameState gameState = (GameState) model.getAttribute("gameState");
+    public String stand(HttpSession session, Model model) {
+        GameState gameState = (GameState) session.getAttribute("gameState");
 
-        // Dealer's turn (dealer plays only after all players stand)
+        // Dealer's turn
         while (gameState.getDealer().getScore() < 17) {
             gameState.getDealer().addCard(gameState.getDeck().dealCard());
         }
 
         String result;
-        for (Player player : gameState.getPlayers()) {
-            if (gameState.getDealer().getScore() > 21 || player.getScore() > gameState.getDealer().getScore()) {
-                result = "Player wins!";
-            } else if (player.getScore() < gameState.getDealer().getScore()) {
-                result = "Dealer wins!";
-            } else {
-                result = "It's a tie!";
-            }
-
-            model.addAttribute("resultMessage", result);
+        if (gameState.getDealer().getScore() > 21 || gameState.getPlayer().getScore() > gameState.getDealer().getScore()) {
+            result = "Player wins!";
+        } else if (gameState.getPlayer().getScore() < gameState.getDealer().getScore()) {
+            result = "Dealer wins!";
+        } else {
+            result = "It's a tie!";
         }
 
+        model.addAttribute("resultMessage", result);
+        model.addAttribute("playerScore", gameState.getPlayer().getScore());
         model.addAttribute("dealerScore", gameState.getDealer().getScore());
-        return "result"; // Renders result.html
+
+        // Reset the game for the next round
+        gameState.reset();
+
+        return "result"; // Render result.html
     }
 }
