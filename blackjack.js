@@ -120,11 +120,6 @@ function updateBalanceDisplay() {
     document.getElementById('balance').textContent = 'Balance: $' + money;
 }
 
-// Clear the result message when starting a new game
-function clearResult() {
-    document.getElementById('result').textContent = '';
-}
-
 // Place Bet Logic
 function placeBet() {
     const betAmount = parseInt(document.getElementById('bet-input').value);
@@ -140,8 +135,9 @@ function placeBet() {
     money -= currentBet;
     updateBalanceDisplay();
 
-    // Hide the bet container after the bet is placed
+    // Hide the bet container and show the game content
     document.getElementById('bet-container').style.display = 'none';
+    document.getElementById('game-container').style.display = 'block';
 
     // Start the game by dealing the initial cards
     dealInitial();
