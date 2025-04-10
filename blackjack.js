@@ -128,7 +128,8 @@ function updateBalanceDisplay() {
 }
 
 function placeBet() {
-    const betAmount = parseInt(prompt("Enter your bet:"));
+    const betInput = document.getElementById('bet-input');
+    const betAmount = parseInt(betInput.value);
     if (betAmount <= 0 || betAmount > money) {
         alert("Invalid bet amount!");
         return;
@@ -136,6 +137,9 @@ function placeBet() {
     currentBet = betAmount;
     money -= currentBet; // Deduct bet from the balance
     updateBalanceDisplay();
+    betInput.disabled = true; // Disable the input after placing the bet
+    document.getElementById('place-bet-button').disabled = true; // Disable the bet button
+    dealInitial(); // Deal the initial cards after placing the bet
 }
 
 function resetGame() {
@@ -145,11 +149,14 @@ function resetGame() {
     currentBet = 0;
     isDoubleDown = false; // Reset double down flag
     updateUI();
-    placeBet(); // Ask the player to place a new bet
-    dealInitial(); // Deal new cards
+    const betInput = document.getElementById('bet-input');
+    betInput.disabled = false; // Enable bet input for the next round
+    document.getElementById('place-bet-button').disabled = false; // Enable bet button for the next round
+    betInput.value = ''; // Clear the input field
+    document.getElementById('result').textContent = ''; // Clear result text
+    updateBalanceDisplay();
 }
 
 window.onload = function() {
-    placeBet(); // Prompt for the initial bet on load
-    dealInitial(); // Deal the initial cards
+    updateBalanceDisplay(); // Ensure balance is displayed
 };
