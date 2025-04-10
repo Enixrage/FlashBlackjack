@@ -7,57 +7,72 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@@SessionAttributes("gameState")
 public class GameController {
 
-    private Deck deck = new Deck();
-    private Player player = new Player();
-    private Player dealer = new Player();
 
     @GetMapping("/")
     public String index(Model model) {
-        resetGame();
-        
-        model.addAttribute("playerHand", player.getHand());
-        model.addAttribute("playerScore", player.getScore());
-        model.addAttribute("dealerHand", dealer.getHand());
-        model.addAttribute("dealerScore", dealer.getScore());
-        return "index"; // This will render index.html
+        GameState gameState = (GameState) model.getAttribute("gameState");
+        if (gameState == null) {
+            gameState = new GameState();
+            model.addAttribute("gameState", gameState);
+        }
+
+        // Deal cards to players and dealer
+        for (Player player : gameState.getPlayers()) {
+            player.addCard(gameState.getDeck().dealCard());
+            player.addCard(gameState.getDeck().dealCard());
+        }
+        gameState.getDealer().addCard(gameState.getDeck().dealCard());
+        gameState.getDealer().addCard(gameState.getDeck().dealCard());
+
+        // Add the hands and scores to the model
+        model.addAttribute("players", gameState.getPlayers());
+        model.addAttribute("dealerHand", gameState.getDealer().getHand());
+        model.addAttribute("dealerScore", gameState.getDealer().getScore());
+
+        return "index"; // Renders index.html
     }
 
     @PostMapping("/hit")
-    public String hit(Model model) {
-        player.addCard(deck.dealCard());
-        if (player.getScore() > 21) {
-            return "bust"; // If player busts
+   public String hit(Model model) {
+        GameState gameState = (GameState) model.getAttribute("gameState");
+
+        // You need to track which player is currently making a move.
+        Player currentPlayer = gameState.getPlayers().get(0); // For now, it’s player 1 (you can modify this)
+
+        currentPlayer.addCard(gameState.getDeck().dealCard());
+        if (currentPlayer.getScore() > 21) {
+            return "bust"; // If the player busts
         }
+
         return "redirect:/";
     }
 
     @PostMapping("/stand")
-    public String stand(Model model) {
-        model.addAttribute("playerScore", player.getScore());
-        model.addAttribute("dealerScore", dealer.getScore());
+   public String stand(Model model) {
+        GameState gameState = (GameState) model.getAttribute("gameState");
+
+        // Dealer's turn (dealer plays only after all players stand)
+        while (gameState.getDealer().getScore() < 17) {
+            gameState.getDealer().addCard(gameState.getDeck().dealCard());
+        }
 
         String result;
-        if (dealer.getScore() > 21 || player.getScore() > dealer.getScore()) {
-            result = "Player wins!";
-        } else if (player.getScore() < dealer.getScore()) {
-            result = "Dealer wins!";
-        } else {
-            result = "It's a tie!";
-        }
-        
-        model.addAttribute("resultMessage", result);
-        return "result"; // This will render result.html after the game ends
-    }
+        for (Player player : gameState.getPlayers()) {
+            if (gameState.getDealer().getScore() > 21 || player.getScore() > gameState.getDealer().getScore()) {
+                result = "Player wins!";
+            } else if (player.getScore() < gameState.getDealer().getScore()) {
+                result = "Dealer wins!";
+            } else {
+                result = "It's a tie!";
+            }
 
-        private void resetGame() {
-        deck = new Deck();
-        player.resetHand();
-        dealer.resetHand();
-        player.addCard(deck.dealCard());
-        player.addCard(deck.dealCard());   //After new round the game resets
-        dealer.addCard(deck.dealCard());
-        dealer.addCard(deck.dealCard());
+            model.addAttribute("resultMessage", result);
+        }
+
+        model.addAttribute("dealerScore", gameState.getDealer().getScore());
+        return "result"; // Renders result.html
     }
 }
