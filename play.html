@@ -1,33 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Play Blackjack</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack Game</title>
+    <style>
+        /* General Body and Background */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #006400; /* Poker Table Green */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding-top: 80px; /* Space for the fixed header */
+        }
+
+        /* Header Styling */
+        header {
+            background-color: black;
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center everything */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+            box-sizing: border-box;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 36px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        header img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .login-button {
+            background-color: black;
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+        }
+
+        .login-button:hover {
+            background-color: white;
+            color: black;
+        }
+
+        /* Button Section */
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .button {
+            background-color: black;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            padding: 30px 60px;
+            margin: 10px;
+            border: 2px solid black;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            width: 300px;
+        }
+
+        .button:hover {
+            background-color: white;
+            color: black;
+            border-color: black;
+        }
+
+        .logo {
+            width: 80px;
+            height: auto;
+            filter: brightness(0) invert(1);
+        }
+
+    </style>
 </head>
 <body>
-    <h1>Blackjack</h1>
 
-    <h2>Your Hand</h2>
-    <ul>
-        <th:block th:each="card : ${playerHand}">
-            <li th:text="${card}"></li>
-        </th:block>
-    </ul>
-    <p>Score: <span th:text="${playerScore}"></span></p>
+    <!-- Header with Title and Logo -->
+    <header>
+        <img src="http://18.206.83.67/image.php" alt="Poker Cards Logo" class="logo">
+        <h1>Blackjack Game</h1>
+        <a href="login.html" class="login-button">Login</a>
+    </header>
 
-    <h2>Dealer's Hand</h2>
-    <ul>
-        <th:block th:each="card : ${dealerHand}">
-            <li th:text="${card}"></li>
-        </th:block>
-    </ul>
-    <p>Score: <span th:text="${dealerScore}"></span></p>
+    <div id="game">
+        <div id="dealer" class="hand">
+            <h2>Dealer's Hand</h2>
+            <div id="dealer-cards"></div>
+            <p id="dealer-total"></p>
+        </div>
+        <div id="player" class="hand">
+            <h2>Your Hand</h2>
+            <div id="player-cards"></div>
+            <p id="player-total"></p>
+        </div>
+        <button onclick="hit()">Hit</button>
+        <button onclick="stand()">Stand</button>
+        <p id="result"></p>
+    </div>
 
-    <form action="/hit" method="post">
-        <button type="submit">Hit</button>
-    </form>
+    <script src="blackjack.js"></script>
 
-    <form action="/stand" method="post">
-        <button type="submit">Stand</button>
-    </form>
 </body>
 </html>
