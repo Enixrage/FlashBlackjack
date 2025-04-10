@@ -19,40 +19,46 @@
             text-align: center;
             padding-top: 80px; /* Space for the fixed header */
         }
-
-        /* Header Styling */
+        
         header {
             background-color: black;
             color: white;
             padding: 20px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center; /* Center the content */
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 10;
             box-sizing: border-box;
+            position: relative;
         }
-
-        .header-left {
+        
+        .header-center {
             display: flex;
             align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
-
+        
         header h1 {
             margin: 0;
             font-size: 36px;
             font-weight: bold;
         }
-
-        header img {
-            height: 40px;
-            margin-right: 10px;
+        
+        .logo {
+            width: 80px;
+            height: auto;
+            filter: brightness(0) invert(1);
         }
-
+        
+        /* Login button positioned absolutely to the right */
         .login-button {
+            position: absolute;
+            right: 20px;
             background-color: black;
             color: white;
             border: 2px solid white;
@@ -63,6 +69,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         .login-button:hover {
@@ -99,11 +107,6 @@
             border-color: black;
         }
 
-        .logo {
-            width: 80px;
-            height: auto;
-            filter: brightness(0) invert(1);
-        }
 
     </style>
 </head>
@@ -111,13 +114,13 @@
 
     <!-- Header with Title and Logo -->
     <header>
-        <div class="header-left">
+        <div class="header-center">
             <img src="http://18.206.83.67/image.php" alt="Poker Cards Logo" class="logo">
             <h1>Blackjack Game</h1>
         </div>
         <a href="login.html" class="login-button">Login</a>
     </header>
-
+    
     <!-- Button Section -->
     <div class="button-container">
         <a href="play.js">
