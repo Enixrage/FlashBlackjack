@@ -71,7 +71,7 @@ public class GameController {
             return "bust"; // If player busts
         }
 
-        return "redirect:/"; // Redirect back to game page
+        return "redirect:/play"; // Redirect back to game page
     }
 
     @PostMapping("/stand")
