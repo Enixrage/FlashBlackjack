@@ -1,6 +1,7 @@
 let deck, playerHand, dealerHand;
 let money = 1000; // Starting money for the player
 let currentBet = 0;
+let isDoubleDown = false;
 
 // Map suit symbols to the characters for your image naming convention
 const suitMap = {
@@ -87,6 +88,19 @@ function stand() {
     endGame();
 }
 
+function doubleDown() {
+    if (currentBet * 2 <= money) {
+        currentBet *= 2; // Double the bet
+        money -= currentBet; // Deduct the bet
+        isDoubleDown = true; // Flag that the player doubled down
+        playerHand.push(deck.pop()); // Give the player one more card
+        updateUI();
+        endGame();
+    } else {
+        alert("You don't have enough money to double down!");
+    }
+}
+
 function endGame() {
     const playerTotal = calculateTotal(playerHand);
     const dealerTotal = calculateTotal(dealerHand);
@@ -143,3 +157,18 @@ function resetGame() {
     updateUI();
     document.getElementById('bet-container').style.display = 'block'; // Show bet input again
 }
+
+// Quick bet buttons
+function quickBet(amount) {
+    const currentBetInput = document.getElementById('bet-input');
+    const newBetAmount = parseInt(currentBetInput.value) + amount;
+    if (newBetAmount <= money) {
+        currentBetInput.value = newBetAmount;
+    }
+}
+
+// Event listeners for quick bet buttons
+document.getElementById('quick-bet-5').addEventListener('click', () => quickBet(5));
+document.getElementById('quick-bet-10').addEventListener('click', () => quickBet(10));
+document.getElementById('quick-bet-50').addEventListener('click', () => quickBet(50));
+document.getElementById('quick-bet-100').addEventListener('click', () => quickBet(100));
