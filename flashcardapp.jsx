@@ -1,63 +1,73 @@
-import React, { useState, useEffect } from 'react';
-import './flashcard.css';
+import React, { useState } from 'react';
+import { flashcards } from './cards';
 
-const FlashcardApp = () => {
-  const [flashcards, setFlashcards] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
+export default function FlashcardApp() {
+  const [index, setIndex] = useState(0);
+  const [flipped, setFlipped] = useState(false);
+  const [difficulty, setDifficulty] = useState("easy");
+  const [correctCount, setCorrectCount] = useState(0);
+  const [incorrectCount, setIncorrectCount] = useState(0);
 
-  useEffect(() => {
-    const fetchFlashcards = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/flashcards');
-        const data = await response.json();
-        setFlashcards(data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching flashcards:', error);
-        setLoading(false);
-      }
-    };
+  const card = flashcards[index];
 
-    fetchFlashcards();
-  }, []);
-
-  const nextFlashcard = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % flashcards.length);
+  const handleNext = () => {
+    setIndex((index + 1) % flashcards.length);
+    setFlipped(false);
   };
 
-  const prevFlashcard = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? flashcards.length - 1 : prevIndex - 1
-    );
+  const handlePrev = () => {
+    setIndex((index - 1 + flashcards.length) % flashcards.length);
+    setFlipped(false);
   };
 
-  if (loading) {
-    return <div className="loading">Loading flashcards...</div>;
-  }
+  const handleCorrect = () => {
+    setCorrectCount(correctCount + 1);
+    handleNext();
+  };
 
-  const currentFlashcard = flashcards[currentIndex];
+  const handleIncorrect = () => {
+    setIncorrectCount(incorrectCount + 1);
+    handleNext();
+  };
 
   return (
-    <div className="flashcard-app">
-      <h1>Blackjack Flashcards</h1>
-      <div className="flashcard">
-        <h2>Player Total: {currentFlashcard.player_total}</h2>
-        <p>Dealer Upcard: {currentFlashcard.dealer_upcard}</p>
-        <p><strong>Strategy:</strong> {currentFlashcard.strategy}</p>
-        <p><strong>Hint:</strong> <span className="hint">{currentFlashcard.hint}</span></p>
-        <p><strong>Category:</strong> <span className="category">{currentFlashcard.category}</span></p>
+    <div className="app">
+      <h2>Blackjack Strategy Flashcards</h2>
+
+      <div>
+        <label>Select Difficulty: </label>
+        <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)}>
+          <option value="easy">Easy (Show Hint)</option>
+          <option value="hard">Hard (No Hint)</option>
+        </select>
       </div>
+
+      <div className="card" onClick={() => setFlipped(!flipped)}>
+        {!flipped ? (
+          <>
+            <p><strong>Player:</strong> {card.playerTotal}</p>
+            <p><strong>Dealer:</strong> {card.dealerUpcard}</p>
+            {difficulty === "easy" && (
+              <p className="hint">💡 Hint: {card.hint}</p>
+            )}
+            <p className="note">Click to flip</p>
+          </>
+        ) : (
+          <p className="strategy">🧠 Strategy: {card.strategy}</p>
+        )}
+      </div>
+
       <div className="controls">
-        <button onClick={prevFlashcard} disabled={flashcards.length <= 1}>
-          Previous
-        </button>
-        <button onClick={nextFlashcard} disabled={flashcards.length <= 1}>
-          Next
-        </button>
+        <button onClick={handlePrev}>⬅ Prev</button>
+        <button onClick={handleNext}>Next ➡</button>
+      </div>
+
+      <div className="scoring">
+        <p>✅ Correct: {correctCount}</p>
+        <p>❌ Incorrect: {incorrectCount}</p>
+        <button onClick={handleCorrect}>I Got It Right</button>
+        <button onClick={handleIncorrect}>I Got It Wrong</button>
       </div>
     </div>
   );
-};
-
-export default FlashcardApp;
+}
