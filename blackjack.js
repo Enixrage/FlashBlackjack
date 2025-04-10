@@ -23,7 +23,7 @@ function shuffle(deck) {
 }
 
 function renderCard(card) {
-    const cardImageUrl = `image.php?card=${card.value}${card.suit.toLowerCase()}`;
+    const cardImageUrl = `cards.php?card=${card.value}${card.suit.toLowerCase()}`;
     return `<img class="card" src="${cardImageUrl}" alt="${card.value}${card.suit}">`;
 }
 
