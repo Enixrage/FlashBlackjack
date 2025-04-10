@@ -58,7 +58,11 @@ header h1 {
 
 header h1:hover {
     color: black; /* Change text color to black on hover */
-    text-shadow: 0 0 5px white, 0 0 10px white, 0 0 15px white; /* Create white outline effect */
+    text-shadow: 
+        1px 1px 0 white,  /* Sharp white shadow on top-left */
+        -1px -1px 0 white, /* Sharp white shadow on bottom-right */
+        1px -1px 0 white,  /* Sharp white shadow on top-right */
+        -1px 1px 0 white;  /* Sharp white shadow on bottom-left */
 }
 
         .login-button {
