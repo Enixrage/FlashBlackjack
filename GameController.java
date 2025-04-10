@@ -60,7 +60,7 @@ public class GameController {
         model.addAttribute("dealerScore", gameState.getDealer().getScore());
 
         return "index"; // Render index.html
-    */}
+    }*/
 
     @PostMapping("/hit")
     public String hit(HttpSession session, Model model) {
