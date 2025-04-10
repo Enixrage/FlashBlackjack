@@ -1,6 +1,7 @@
 let deck, playerHand, dealerHand;
 let money = 1000; // Starting money for the player
 let currentBet = 0;
+let isDoubleDown = false; // Track if player chose to double down
 
 // Map suit symbols to the characters for your image naming convention
 const suitMap = {
@@ -87,6 +88,18 @@ function stand() {
     endGame();
 }
 
+function doubleDown() {
+    if (currentBet * 2 <= money) {
+        currentBet *= 2; // Double the bet
+        isDoubleDown = true; // Flag that the player doubled down
+        playerHand.push(deck.pop()); // Give the player one more card
+        updateUI();
+        endGame();
+    } else {
+        alert("You don't have enough money to double down!");
+    }
+}
+
 function endGame() {
     const playerTotal = calculateTotal(playerHand);
     const dealerTotal = calculateTotal(dealerHand);
@@ -130,6 +143,7 @@ function resetGame() {
     playerHand = [];
     dealerHand = [];
     currentBet = 0;
+    isDoubleDown = false; // Reset double down flag
     updateUI();
     placeBet(); // Ask the player to place a new bet
     dealInitial(); // Deal new cards
