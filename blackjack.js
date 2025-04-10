@@ -1,4 +1,6 @@
 let deck, playerHand, dealerHand;
+let money = 1000; // Starting money for the player
+let currentBet = 0;
 
 function createDeck() {
     const suits = ['♠', '♥', '♣', '♦'];
@@ -20,11 +22,20 @@ function shuffle(deck) {
     return deck;
 }
 
-function dealInitial() {
-    deck = createDeck();
-    playerHand = [deck.pop(), deck.pop()];
-    dealerHand = [deck.pop(), deck.pop()];
-    updateUI();
+function renderCard(card) {
+    const cardImageUrl = `image.php?card=${card.value}${card.suit.toLowerCase()}`;
+    return `<img class="card" src="${cardImageUrl}" alt="${card.value}${card.suit}">`;
+}
+
+function updateUI() {
+    const dealerCards = document.getElementById('dealer-cards');
+    const playerCards = document.getElementById('player-cards');
+    const dealerTotal = document.getElementById('dealer-total');
+    const playerTotal = document.getElementById('player-total');
+    dealerCards.innerHTML = dealerHand.map(card => renderCard(card)).join('');
+    playerCards.innerHTML = playerHand.map(card => renderCard(card)).join('');
+    dealerTotal.textContent = 'Total: ' + calculateTotal(dealerHand);
+    playerTotal.textContent = 'Total: ' + calculateTotal(playerHand);
 }
 
 function calculateTotal(hand) {
@@ -44,19 +55,11 @@ function calculateTotal(hand) {
     return total;
 }
 
-function updateUI() {
-    const dealerCards = document.getElementById('dealer-cards');
-    const playerCards = document.getElementById('player-cards');
-    const dealerTotal = document.getElementById('dealer-total');
-    const playerTotal = document.getElementById('player-total');
-    dealerCards.innerHTML = dealerHand.map(card => renderCard(card)).join('');
-    playerCards.innerHTML = playerHand.map(card => renderCard(card)).join('');
-    dealerTotal.textContent = 'Total: ' + calculateTotal(dealerHand);
-    playerTotal.textContent = 'Total: ' + calculateTotal(playerHand);
-}
-
-function renderCard(card) {
-    return `<div class="card">${card.value}${card.suit}</div>`;
+function dealInitial() {
+    deck = createDeck();
+    playerHand = [deck.pop(), deck.pop()];
+    dealerHand = [deck.pop(), deck.pop()];
+    updateUI();
 }
 
 function hit() {
@@ -78,12 +81,51 @@ function endGame() {
     const playerTotal = calculateTotal(playerHand);
     const dealerTotal = calculateTotal(dealerHand);
     let result = '';
-    if (playerTotal > 21) result = 'You bust! Dealer wins.';
-    else if (dealerTotal > 21) result = 'Dealer busts! You win!';
-    else if (playerTotal > dealerTotal) result = 'You win!';
-    else if (playerTotal < dealerTotal) result = 'Dealer wins.';
-    else result = 'Push (Tie).';
+    if (playerTotal > 21) {
+        result = 'You bust! Dealer wins.';
+    } else if (dealerTotal > 21) {
+        result = 'Dealer busts! You win!';
+        money += currentBet * 2; // Player wins, double the bet
+    } else if (playerTotal > dealerTotal) {
+        result = 'You win!';
+        money += currentBet * 2; // Player wins, double the bet
+    } else if (playerTotal < dealerTotal) {
+        result = 'Dealer wins.';
+    } else {
+        result = 'Push (Tie).';
+        money += currentBet; // Tie, return the bet
+    }
+
     document.getElementById('result').textContent = result;
+    updateBalanceDisplay();
 }
 
-window.onload = dealInitial;
+function updateBalanceDisplay() {
+    document.getElementById('balance').textContent = 'Balance: $' + money;
+}
+
+function placeBet() {
+    const betAmount = parseInt(prompt("Enter your bet:"));
+    if (betAmount <= 0 || betAmount > money) {
+        alert("Invalid bet amount!");
+        return;
+    }
+    currentBet = betAmount;
+    money -= currentBet; // Deduct bet from the balance
+    updateBalanceDisplay();
+}
+
+function resetGame() {
+    deck = createDeck();
+    playerHand = [];
+    dealerHand = [];
+    currentBet = 0;
+    updateUI();
+    placeBet(); // Ask the player to place a new bet
+    dealInitial(); // Deal new cards
+}
+
+window.onload = function() {
+    placeBet(); // Prompt for the initial bet on load
+    dealInitial(); // Deal the initial cards
+};
