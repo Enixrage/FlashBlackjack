@@ -189,29 +189,24 @@ header h1:hover {
     </style>
 </head>
 <body>
-
-    <!-- Header with Title and Logo -->
-    <header onclick="window.location.href='index.html'">
-        <img src="http://18.206.83.67/image.php" alt="Poker Cards Logo" class="logo">
-        <h1>Blackjack Game</h1>
-    </header>
-
-    <div id="game">
-        <!-- Bet Input -->
-        <div id="bet-container">
-            <h2>Place Your Bet</h2>
-            <input type="number" id="bet-input" placeholder="Enter Bet Amount" min="1" step="1">
-            <button onclick="placeBet()">Place Bet</button>
-        </div>
-
-        <!-- Quick Bet Buttons -->
+    <!-- Bet Placement Page -->
+    <div id="bet-container">
+        <h2>Place Your Bet</h2>
+        <input type="number" id="bet-input" placeholder="Enter Bet Amount" min="1" step="1">
+        <button onclick="placeBet()">Place Bet</button>
+        
         <div id="quick-bet-container">
             <button id="quick-bet-5">+5</button>
             <button id="quick-bet-10">+10</button>
             <button id="quick-bet-50">+50</button>
             <button id="quick-bet-100">+100</button>
         </div>
+        
+        <p id="balance">Balance: $1000</p>
+    </div>
 
+    <!-- Game Content (Hidden initially) -->
+    <div id="game-container" style="display: none;">
         <!-- Dealer's Hand -->
         <div id="dealer" class="hand">
             <h2>Dealer's Hand</h2>
@@ -242,6 +237,6 @@ header h1:hover {
     </div>
 
     <script src="blackjack.js"></script>
-
 </body>
+
 </html>
