@@ -2,7 +2,6 @@ let deck, playerHand, dealerHand;
 let money = 1000;
 let currentBet = 0;
 let isDoubleDown = false;
-let dealerCardTimeouts = []; // To manage timeouts for card drawing
 
 function createDeck() {
     const suits = ['♠', '♥', '♣', '♦'];
@@ -38,7 +37,7 @@ function updateUI(showDealerHoleCard = false) {
 
     dealerCards.innerHTML = dealerHand.map((card, index) => {
         if (index === 1 && !showDealerHoleCard) {
-            return `<img class="card flip" src="cards.php?card=BACK" alt="Face Down">`;
+            return `<img class="card" src="cards.php?card=BACK" alt="Face Down">`;
         }
         return renderCard(card);
     }).join('');
@@ -70,7 +69,7 @@ function dealInitial() {
     deck = createDeck();
     playerHand = [deck.pop(), deck.pop()];
     dealerHand = [deck.pop(), deck.pop()];
-    updateUI(false); // Show the dealer's face-down card
+    updateUI();
 
     const playerTotal = calculateTotal(playerHand);
     if (playerTotal === 21) {
@@ -99,21 +98,13 @@ function stand() {
     updateUI(false); // Hide hole card first
     setTimeout(() => {
         while (calculateTotal(dealerHand) < 17) {
-            // Animate dealer's card draw
-            dealerCardTimeouts.push(setTimeout(() => {
-                dealerHand.push(deck.pop());
-                updateUI(false); // Hide the hole card until all drawn
-            }, 1000 * dealerCardTimeouts.length)); // Delay each card draw by 1 second
-
+            dealerHand.push(deck.pop());
         }
+        updateUI(true); // Reveal full dealer hand
 
-        // After dealer's hand is fully revealed
         setTimeout(() => {
-            updateUI(true); // Reveal full dealer hand
-            setTimeout(() => {
-                endGame();
-            }, 600);
-        }, 1000 * dealerCardTimeouts.length);
+            endGame();
+        }, 600);
     }, 600);
 }
 
@@ -228,10 +219,6 @@ function resetGame() {
     document.getElementById('bet-input').value = '';
     document.getElementById('bet-container').style.display = 'flex';
     document.getElementById('game-container').style.display = 'none';
-
-    // Clear dealer card timeouts
-    dealerCardTimeouts.forEach(timeout => clearTimeout(timeout));
-    dealerCardTimeouts = [];
 }
 
 // Quick bet buttons
