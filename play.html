@@ -1,203 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
   <link rel="manifest" href="/images/site.webmanifest">
     
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blackjack Game</title>
-    <style>
-        /* General Body and Background */
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #006400; /* Poker Table Green */
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            text-align: center;
-            padding-top: 80px; /* Space for the fixed header */
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blackjack Game</title>
+  <style>
+    /* General Body and Background */
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #006400; /* Poker Table Green */
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Ensures footer stays at the bottom */
+        align-items: center;
+        min-height: 100vh;
+        text-align: center;
+        padding-top: 80px; /* Space for the fixed header */
+    }
 
-        /* Button Section */
-        .button-container {
-            display: flex;
-            gap: 20px; /* Space between buttons */
-            justify-content: center; /* Center buttons horizontally */
-            margin-top: 20px;
-        }
+    /* Button Section */
+    .button-container {
+        display: flex;
+        gap: 20px; /* Space between buttons */
+        justify-content: center; /* Center buttons horizontally */
+        margin-top: 20px;
+    }
 
-        .button {
-            background-color: black;
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
-            padding: 15px 30px;
-            border: 2px solid white;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+    .button {
+        background-color: black;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        padding: 15px 30px;
+        border: 2px solid white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
 
-        .button:hover {
-            background-color: white;
-            color: black;
-        }
+    .button:hover {
+        background-color: white;
+        color: black;
+    }
 
-        /* Card Styling */
-        .card {
-            width: 100px; /* Adjust the width of the cards */
-            height: auto; /* Maintain aspect ratio */
-            margin: 0 5px; /* Add space between the cards */
-            display: inline-block; /* Align cards next to each other */
-        }
+    /* Card Styling */
+    .card {
+        width: 100px; /* Adjust the width of the cards */
+        height: auto; /* Maintain aspect ratio */
+        margin: 0 5px; /* Add space between the cards */
+        display: inline-block; /* Align cards next to each other */
+    }
 
-        /* Card Section */
-        .hand {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
+    /* Card Section */
+    .hand {
+        display: flex;
+        justify-content: center; /* Center align cards */
+        align-items: center;
+        gap: 10px; /* Decrease space between cards */
+        flex-wrap: wrap; /* Allow cards to wrap to a new line if needed */
+    }
 
-        /* Play Again Button */
-        #play-again {
-            margin-top: 20px;
-            background-color: black;
-            color: white;
-            font-size: 20px;
-            padding: 15px 30px;
-            border: 2px solid white;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+    /* Play Again Button */
+    #play-again {
+        margin-top: 20px;
+        background-color: black;
+        color: white;
+        font-size: 20px;
+        padding: 15px 30px;
+        border: 2px solid white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
 
-        #play-again:hover {
-            background-color: white;
-            color: black;
-        }
+    #play-again:hover {
+        background-color: white;
+        color: black;
+    }
 
-        /* Bet Input Styling */
-        #bet-container {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    /* Bet Input Styling */
+    #bet-container {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-        #bet-container input {
-            padding: 10px;
-            font-size: 20px;
-            margin-bottom: 10px;
-            border: 2px solid white;
-            border-radius: 8px;
-            background-color: transparent;
-            color: white;
-            width: 200px;
-        }
+    #bet-container input {
+        padding: 10px;
+        font-size: 20px;
+        margin-bottom: 10px;
+        border: 2px solid white;
+        border-radius: 8px;
+        background-color: transparent;
+        color: white;
+        width: 200px;
+    }
 
-        #bet-container button {
-            padding: 10px 20px;
-            font-size: 18px;
-            background-color: black;
-            color: white;
-            border: 2px solid white;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+    #bet-container button {
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: black;
+        color: white;
+        border: 2px solid white;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
 
-        #bet-container button:hover {
-            background-color: white;
-            color: black;
-        }
+    #bet-container button:hover {
+        background-color: white;
+        color: black;
+    }
 
-    </style>
+    #footer {
+        margin-top: auto; /* Makes sure the footer is at the bottom */
+        padding: 10px;
+    }
+  </style>
 </head>
 <body>
-    <!-- Header with Title and Logo -->
-    <div id="header-container" style="width: 100%; padding: 0; margin: 0;"></div>
-    
-    <!-- Bet Placement Page -->
-    <div id="bet-container">
-        <h2>Place Your Bet</h2>
-        <input type="number" id="bet-input" placeholder="Enter Bet Amount" min="1" step="1">
-        <button onclick="placeBet()">Place Bet</button>
-        
-        <div id="quick-bet-container">
-            <button id="quick-bet-5">+5</button>
-            <button id="quick-bet-10">+10</button>
-            <button id="quick-bet-50">+50</button>
-            <button id="quick-bet-100">+100</button>
-        </div>
-        
-        <p id="balance">Balance: $1000</p>
-    </div>
+  <!-- Header with Title and Logo -->
+  <div id="header-container" style="width: 100%; padding: 0; margin: 0;"></div>
+  
+  <!-- Bet Placement Page -->
+  <div id="bet-container">
+      <h2>Place Your Bet</h2>
+      <input type="number" id="bet-input" placeholder="Enter Bet Amount" min="1" step="1">
+      <button onclick="placeBet()">Place Bet</button>
+      
+      <div id="quick-bet-container">
+          <button id="quick-bet-5">+5</button>
+          <button id="quick-bet-10">+10</button>
+          <button id="quick-bet-50">+50</button>
+          <button id="quick-bet-100">+100</button>
+      </div>
+      
+      <p id="balance">Balance: $1000</p>
+  </div>
 
-    <!-- Game Content (Hidden initially) -->
-    <div id="game-container" style="display: none;">
-        <!-- Dealer's Hand -->
-        <div id="dealer" class="hand">
-            <h2>Dealer's Hand</h2>
-            <div id="dealer-cards"></div>
-            <p id="dealer-total"></p>
-        </div>
+  <!-- Game Content (Hidden initially) -->
+  <div id="game-container" style="display: none;">
+      <!-- Dealer's Hand -->
+      <div id="dealer" class="hand">
+          <h2>Dealer's Hand</h2>
+          <div id="dealer-cards"></div>
+          <p id="dealer-total"></p>
+      </div>
 
-        <!-- Player's Hand -->
-        <div id="player" class="hand">
-            <h2>Your Hand</h2>
-            <div id="player-cards"></div>
-            <p id="player-total"></p>
-        </div>
+      <!-- Player's Hand -->
+      <div id="player" class="hand">
+          <h2>Your Hand</h2>
+          <div id="player-cards"></div>
+          <p id="player-total"></p>
+      </div>
 
-        <!-- Game Controls -->
-        <div class="button-container">
-            <button onclick="hit()" class="button">Hit</button>
-            <button onclick="stand()" class="button">Stand</button>
-            <button onclick="doubleDown()" class="button">Double Down</button>
-        </div>
+      <!-- Game Controls -->
+      <div class="button-container">
+          <button onclick="hit()" class="button">Hit</button>
+          <button onclick="stand()" class="button">Stand</button>
+          <button onclick="doubleDown()" class="button">Double Down</button>
+      </div>
 
-        <!-- Result and Balance -->
-        <p id="result"></p>
-        <p id="balance"></p>
+      <!-- Result and Balance -->
+      <p id="result"></p>
+      <p id="balance"></p>
 
-        <!-- Play Again Button -->
-        <a href="index.html">
-          <button id="play-again">Quit to Home</button>
-        </a>
-    </div>
+      <!-- Play Again Button (Removed Quit Button) -->
+  </div>
 
-    <div id="footer"></div>
+  
 
-    <script src="blackjack.js">updateBalanceDisplay();</script>
-
-    <div id="footer-container" style="width: 100%; padding: 0; margin: 0;">
-        
-    <script>
-    // Load header
-    fetch('header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('header-container').innerHTML = data;
-      })
-      .catch(error => console.error('Error loading header:', error));
-
-    // Load footer
-    fetch('footer.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('footer-container').innerHTML = data;
-      })
-      .catch(error => console.error('Error loading footer:', error));
-  </script>
-        
+  <script src="blackjack.js"></script>
 </body>
 </html>
