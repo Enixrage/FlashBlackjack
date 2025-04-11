@@ -10,6 +10,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Blackjack BootCamp</title>
+  <!--  <meta name="google-signin-client_id" content="YOUR_CLIENT_ID_HERE.apps.googleusercontent.com"> -->
+  <!--  <script src="https://apis.google.com/js/platform.js" async defer></script> -->
     <style>
         body {
             margin: 0;
@@ -93,21 +95,38 @@
     </div>
 <div id="footer-container" style="width: 100%; padding: 0; margin: 0;">
    <script>
-    // Load header
+ // Load header and footer
     fetch('header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('header-container').innerHTML = data;
-      })
-      .catch(error => console.error('Error loading header:', error));
+      .then(res => res.text())
+      .then(data => document.getElementById('header-container').innerHTML = data);
 
-    // Load footer
     fetch('footer.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('footer-container').innerHTML = data;
+      .then(res => res.text())
+      .then(data => document.getElementById('footer-container').innerHTML = data);
+
+    // Google Sign-In logic
+    function onSignIn(googleUser) {
+      const id_token = googleUser.getAuthResponse().id_token;
+
+      fetch('/auth/google', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id_token })
       })
-      .catch(error => console.error('Error loading footer:', error));
+      .then(res => res.json())
+      .then(data => {
+        if (data.redirect) {
+          window.location.href = data.redirect;
+        } else {
+          alert('Login failed');
+        }
+      })
+      .catch(err => {
+        console.error('Google Login Error:', err);
+      });
+    }
   </script>
 </body>
 </html>
