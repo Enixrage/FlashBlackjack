@@ -93,26 +93,28 @@ function hit() {
 }
 
 function stand() {
+    if (gameEnded) return; // Prevent standing after the game has ended
+    gameEnded = true; // Prevent further actions (hit/stand)
+    disableActions(); // Disable buttons
+
     updateUI(false); // Hide hole card first
     setTimeout(() => {
-        while (calculateTotal(dealerHand) < 17) {
-            // Animate dealer's card draw
-            dealerCardTimeouts.push(setTimeout(() => {
-                dealerHand.push(deck.pop());
-                updateUI(false); // Hide the hole card until all drawn
-            }, 1000 * dealerCardTimeouts.length)); // Delay each card draw by 1 second
-
+        // Reveal hole card after a delay
+        updateUI(true);
+        
+        // Dealer's turn: draw cards until reaching at least 17
+        while (calculateTotal(dealerHand) < 17 && deck.length > 0) {
+            dealerHand.push(deck.pop());
+            updateUI(true); // Reveal dealer's hand as it's drawn
         }
 
-        // After dealer's hand is fully revealed
+        // End game after dealer's turn
         setTimeout(() => {
-            updateUI(true); // Reveal full dealer hand
-            setTimeout(() => {
-                endGame();
-            }, 600);
-        }, 1000 * dealerCardTimeouts.length);
-    }, 600);
+            endGame(); // End game after dealer's turn
+        }, 600);
+    }, 600); // Wait a moment before revealing the hole card
 }
+
 
 function doubleDown() {
     if (isDoubleDown || currentBet * 2 > money + currentBet || playerHand.length > 2) {
