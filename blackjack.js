@@ -88,10 +88,7 @@ function hit() {
     updateUI();
     const total = calculateTotal(playerHand);
     if (total > 21) {
-        setTimeout(() => {
-            updateUI(true);
-            setTimeout(() => endGame(), 600);
-        }, 600);
+        endGame();
     }
 }
 
@@ -162,13 +159,31 @@ function endGame() {
         money += currentBet;
     }
 
-    // Show modal popup
-    document.getElementById('result-text').textContent = result;
-    document.getElementById('result-message').textContent = `Your balance: $${money}`;
-    document.getElementById('result-popup').style.display = 'flex';
+    // Show modal popup after 3 seconds
+    setTimeout(() => {
+        document.getElementById('result-text').textContent = result;
+        document.getElementById('result-message').textContent = `Your balance: $${money}`;
+        document.getElementById('result-popup').classList.add('show'); // Add class to make it visible
+    }, 3000); // 3000 milliseconds = 3 seconds
 
     updateBalanceDisplay();
+    disableActions(); // Disable all buttons after the game ends
 }
+
+function disableActions() {
+    // Disable hit, stand, double down buttons
+    document.getElementById('hit-button').disabled = true;
+    document.getElementById('stand-button').disabled = true;
+    document.getElementById('double-button').disabled = true;
+}
+
+function enableActions() {
+    // Enable buttons for player actions
+    document.getElementById('hit-button').disabled = false;
+    document.getElementById('stand-button').disabled = false;
+    document.getElementById('double-button').disabled = false;
+}
+
 
 function playAgain() {
     resetGame();
