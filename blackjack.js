@@ -38,7 +38,7 @@ function updateUI(showDealerHoleCard = false) {
 
     dealerCards.innerHTML = dealerHand.map((card, index) => {
         if (index === 1 && !showDealerHoleCard) {
-            return `<img class="card flip" src="cards.php?card=BACK" alt="facedowncard">`;
+            return `<img class="card flip" src="cards.php?card=BACK" alt="BACK">`;
         }
         return renderCard(card);
     }).join('');
