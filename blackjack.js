@@ -131,17 +131,14 @@ function endGame() {
         money += currentBet;
     }
 
-    // Display result in a dialog
-    alert(result);
+    // Display result in the UI instead of alert
+    document.getElementById('result').textContent = result;
+    document.getElementById('result-container').style.display = 'block';
 
-    // Ask to place another bet or quit
-    const playAgain = confirm("Would you like to bet again?");
-    if (playAgain) {
-        resetGame();
-    } else {
-        // Go back to the home screen or menu (implement as needed)
-        window.location.href = "index.html"; // Adjust the URL to your home screen
-    }
+    // Hide the game controls and the player's cards
+    document.querySelector('.button-container').style.display = 'none';
+    document.getElementById('dealer-cards').style.display = 'none';
+    document.getElementById('player-cards').style.display = 'none';
 
     updateBalanceDisplay();
 }
@@ -151,57 +148,4 @@ function disableActions() {
 }
 
 function updateBalanceDisplay() {
-    document.querySelectorAll('#balance').forEach(el => el.textContent = 'Balance: $' + money);
-}
-
-function clearResult() {
-    document.getElementById('result').textContent = '';
-}
-
-// Place Bet Logic
-function placeBet() {
-    const betAmount = parseInt(document.getElementById('bet-input').value);
-    if (isNaN(betAmount) || betAmount <= 0 || betAmount > money) {
-        alert("Invalid bet amount! Please enter a valid bet.");
-        return;
-    }
-
-    currentBet = betAmount;
-    money -= currentBet;
-    updateBalanceDisplay();
-    clearResult();
-
-    isDoubleDown = false;
-
-    document.getElementById('bet-container').style.display = 'none';
-    document.getElementById('game-container').style.display = 'block';
-
-    dealInitial();
-}
-
-// Reset to Bet screen (now Quit)
-function resetGame() {
-    deck = [];
-    playerHand = [];
-    dealerHand = [];
-    currentBet = 0;
-    isDoubleDown = false;
-    clearResult();
-    document.getElementById('player-cards').innerHTML = '';
-    document.getElementById('dealer-cards').innerHTML = '';
-    document.getElementById('player-total').textContent = '';
-    document.getElementById('dealer-total').textContent = '';
-    document.getElementById('bet-input').value = '';
-    document.getElementById('bet-container').style.display = 'flex';
-    document.getElementById('game-container').style.display = 'none';
-}
-
-// Quick bet buttons
-document.getElementById('quick-bet-5').addEventListener('click', () => setQuickBet(5));
-document.getElementById('quick-bet-10').addEventListener('click', () => setQuickBet(10));
-document.getElementById('quick-bet-50').addEventListener('click', () => setQuickBet(50));
-document.getElementById('quick-bet-100').addEventListener('click', () => setQuickBet(100));
-
-function setQuickBet(amount) {
-    document.getElementById('bet-input').value = amount;
-}
+    document.querySelectorAll('#balance').forEach(el => el
