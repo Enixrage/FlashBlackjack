@@ -91,8 +91,8 @@ function stand() {
 }
 
 function doubleDown() {
-    if (isDoubleDown || currentBet * 2 > money + currentBet) {
-        alert("You don't have enough money to double down!");
+    if (isDoubleDown || currentBet * 2 > money + currentBet || playerHand.length > 2) {
+        alert("You can only double down before hitting or after your first card.");
         return;
     }
 
@@ -131,9 +131,19 @@ function endGame() {
         money += currentBet;
     }
 
-    document.getElementById('result').textContent = result;
+    // Display result in a dialog
+    alert(result);
+
+    // Ask to place another bet or quit
+    const playAgain = confirm("Would you like to bet again?");
+    if (playAgain) {
+        resetGame();
+    } else {
+        // Go back to the home screen or menu (implement as needed)
+        window.location.href = "index.html"; // Adjust the URL to your home screen
+    }
+
     updateBalanceDisplay();
-    disableActions();
 }
 
 function disableActions() {
@@ -187,17 +197,11 @@ function resetGame() {
 }
 
 // Quick bet buttons
-function quickBet(amount) {
-    const input = document.getElementById('bet-input');
-    let current = parseInt(input.value) || 0;
-    let newBet = current + amount;
-    if (newBet <= money) {
-        input.value = newBet;
-    }
-}
+document.getElementById('quick-bet-5').addEventListener('click', () => setQuickBet(5));
+document.getElementById('quick-bet-10').addEventListener('click', () => setQuickBet(10));
+document.getElementById('quick-bet-50').addEventListener('click', () => setQuickBet(50));
+document.getElementById('quick-bet-100').addEventListener('click', () => setQuickBet(100));
 
-// Event listeners for quick bet buttons
-document.getElementById('quick-bet-5').addEventListener('click', () => quickBet(5));
-document.getElementById('quick-bet-10').addEventListener('click', () => quickBet(10));
-document.getElementById('quick-bet-50').addEventListener('click', () => quickBet(50));
-document.getElementById('quick-bet-100').addEventListener('click', () => quickBet(100));
+function setQuickBet(amount) {
+    document.getElementById('bet-input').value = amount;
+}
