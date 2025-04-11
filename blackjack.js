@@ -25,8 +25,8 @@ function shuffle(deck) {
 
 function renderCard(card) {
     const suitChar = card.suit === '♠' ? 'S' : card.suit === '♥' ? 'H' : card.suit === '♣' ? 'C' : 'D';
-    const cardImageUrl = cards.php?card=${card.value}${suitChar};
-    return <img class="card" src="${cardImageUrl}" alt="${card.value}${card.suit}">;
+    const cardImageUrl = `cards.php?card=${card.value}${suitChar}`;
+    return `<img class="card" src="${cardImageUrl}" alt="${card.value}${card.suit}">`;
 }
 
 function updateUI() {
