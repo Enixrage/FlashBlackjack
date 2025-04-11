@@ -92,6 +92,8 @@ function hit() {
     }
 }
 
+let gameEnded = false;
+
 function stand() {
     if (gameEnded) return; // Prevent standing after the game has ended
     gameEnded = true; // Prevent further actions (hit/stand)
@@ -101,7 +103,7 @@ function stand() {
     setTimeout(() => {
         // Reveal hole card after a delay
         updateUI(true);
-        
+
         // Dealer's turn: draw cards until reaching at least 17
         while (calculateTotal(dealerHand) < 17 && deck.length > 0) {
             dealerHand.push(deck.pop());
@@ -111,9 +113,10 @@ function stand() {
         // End game after dealer's turn
         setTimeout(() => {
             endGame(); // End game after dealer's turn
-        }, 600);
+        }, 600); // 600 ms delay before ending game
     }, 600); // Wait a moment before revealing the hole card
 }
+
 
 
 function doubleDown() {
@@ -245,6 +248,9 @@ function resetGame() {
     document.getElementById('bet-input').value = '';
     document.getElementById('bet-container').style.display = 'flex';
     document.getElementById('game-container').style.display = 'none';
+
+    // Enable actions after reset
+    enableActions();
 
     // Clear dealer card timeouts
     dealerCardTimeouts.forEach(timeout => clearTimeout(timeout));
