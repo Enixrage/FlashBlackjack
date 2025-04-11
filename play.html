@@ -22,7 +22,7 @@
         align-items: center; /* Horizontally center the content */
         min-height: 100vh;
         text-align: center;
-        padding-top: 10px; /* Space for the fixed header */
+        padding-top: 40px; /* Space for the fixed header */
     }
 
     /* Card Styling */
@@ -56,13 +56,38 @@
 
     /* Cards adjustment to the right */
     .hand {
-        margin-left: 20px; /* Move the cards slightly to the right */
+        margin-left: 40px; /* Move the cards slightly to the right */
     }
 
     /* Totals alignment */
     .total {
         margin-top: 10px;
         font-size: 20px;
+    }
+
+    /* Button Section */
+    .button-container {
+        display: flex;
+        gap: 20px; /* Space between buttons */
+        justify-content: center; /* Center buttons horizontally */
+        margin-top: 20px;
+    }
+
+    .button {
+        background-color: black;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        padding: 15px 30px;
+        border: 2px solid white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+        background-color: white;
+        color: black;
     }
 
     /* Bet Input Styling */
