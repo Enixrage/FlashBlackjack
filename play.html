@@ -18,11 +18,11 @@
         color: white;
         display: flex;
         flex-direction: column;
-        justify-content: space-between; /* Ensures footer stays at the bottom */
+        justify-content: flex-start; /* Ensures content aligns with top */
         align-items: center;
         min-height: 100vh;
         text-align: center;
-        padding-top: 80px; /* Space for the fixed header */
+        padding-top: 100px; /* Ensure content isn't behind header */
     }
 
     /* Button Section */
@@ -87,10 +87,11 @@
 
     /* Bet Input Styling */
     #bet-container {
-        margin-top: 20px;
+        margin-top: 50px;
         display: flex;
         flex-direction: column;
         align-items: center;
+        z-index: 1;
     }
 
     #bet-container input {
@@ -120,6 +121,75 @@
         color: black;
     }
 
+    /* Footer */
+    #footer-container {
+        margin-top: auto; /* Ensures footer stays at the bottom */
+        width: 100%;
+        padding: 20px;
+        background-color: black;
+        color: white;
+        text-align: center;
+    }
+
+    /* Fixed Header */
+    header {
+        background-color: black;
+        color: white;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 10;
+        box-sizing: border-box;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 36px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+    }
+
+    header h1:hover {
+        text-decoration: underline;
+    }
+
+    header img {
+        height: 40px;
+        margin-right: 10px;
+    }
+
+    .logo {
+        width: 100px;
+        height: auto;
+    }
+
+    .login-button {
+        background-color: black;
+        color: white;
+        border: 2px solid white;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+    }
+
+    .login-button:hover {
+        background-color: white;
+        color: black;
+    }
   </style>
 </head>
 <body>
@@ -172,7 +242,7 @@
       <!-- Play Again Button (Removed Quit Button) -->
   </div>
 
-    <div id="footer-container" style="width: 100%; padding: 0; margin: 0; margin-top:auto;"></div>
+  <div id="footer-container"></div>
 
   <script>
     // Load header
