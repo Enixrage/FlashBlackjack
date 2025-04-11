@@ -230,3 +230,11 @@ document.getElementById('quick-bet-100').addEventListener('click', () => setQuic
 function setQuickBet(amount) {
     document.getElementById('bet-input').value = amount;
 }
+
+function disableActions() {
+    document.querySelectorAll('.button-container button').forEach(btn => btn.disabled = true);
+}
+
+function enableActions() {
+    document.querySelectorAll('.button-container button').forEach(btn => btn.disabled = false);
+}
