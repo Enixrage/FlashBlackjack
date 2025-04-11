@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Blackjack Flashcards</title>
+  <style>
+    .card { border: 1px solid #ccc; padding: 20px; margin-top: 20px; cursor: pointer; }
+    .controls, .scoring { margin-top: 15px; }
+    .hint { color: darkgreen; }
+    .strategy { color: darkblue; }
+  </style>
+</head>
+<body>
+  <h2>Blackjack Strategy Flashcards</h2>
+
+  <div>
+    <label>Select Difficulty: </label>
+    <select id="difficulty">
+      <option value="easy">Easy (Show Hint)</option>
+      <option value="hard">Hard (No Hint)</option>
+    </select>
+  </div>
+
+  <div id="card" class="card">
+    <!-- Card content goes here -->
+  </div>
+
+  <div class="controls">
+    <button id="prevBtn">⬅ Prev</button>
+    <button id="nextBtn">Next ➡</button>
+  </div>
+
+  <div class="scoring">
+    <p>Correct: <span id="correctCount">0</span></p>
+    <p>Incorrect: <span id="incorrectCount">0</span></p>
+    <button id="correctBtn">I Got It Right</button>
+    <button id="incorrectBtn">I Got It Wrong</button>
+  </div>
+
+  <script src="flashcards.js"></script>
+</body>
+</html>

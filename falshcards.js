@@ -70,4 +70,66 @@ export const flashcards = [
       hint: "16 is the worst hand - always split."
     },
   ];
-  
+  let index = 0;
+let flipped = false;
+let correctCount = 0;
+let incorrectCount = 0;
+
+const cardEl = document.getElementById("card");
+const correctEl = document.getElementById("correctCount");
+const incorrectEl = document.getElementById("incorrectCount");
+const difficultyEl = document.getElementById("difficulty");
+
+function renderCard() {
+  const card = flashcards[index];
+  const difficulty = difficultyEl.value;
+  if (!flipped) {
+    cardEl.innerHTML = `
+      <p><strong>Player:</strong> ${card.playerTotal}</p>
+      <p><strong>Dealer:</strong> ${card.dealerUpcard}</p>
+      ${difficulty === "easy" ? `<p class="hint">Hint: ${card.hint}</p>` : ""}
+      <p class="note">Click to flip</p>
+    `;
+  } else {
+    cardEl.innerHTML = `<p class="strategy">Strategy: ${card.strategy}</p>`;
+  }
+}
+
+cardEl.addEventListener("click", () => {
+  flipped = !flipped;
+  renderCard();
+});
+
+document.getElementById("nextBtn").addEventListener("click", () => {
+  index = (index + 1) % flashcards.length;
+  flipped = false;
+  renderCard();
+});
+
+document.getElementById("prevBtn").addEventListener("click", () => {
+  index = (index - 1 + flashcards.length) % flashcards.length;
+  flipped = false;
+  renderCard();
+});
+
+document.getElementById("correctBtn").addEventListener("click", () => {
+  correctCount++;
+  correctEl.textContent = correctCount;
+  index = (index + 1) % flashcards.length;
+  flipped = false;
+  renderCard();
+});
+
+document.getElementById("incorrectBtn").addEventListener("click", () => {
+  incorrectCount++;
+  incorrectEl.textContent = incorrectCount;
+  index = (index + 1) % flashcards.length;
+  flipped = false;
+  renderCard();
+});
+
+difficultyEl.addEventListener("change", renderCard);
+
+// Initial render
+renderCard();
+
