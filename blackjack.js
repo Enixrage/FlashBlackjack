@@ -88,6 +88,7 @@ function hit() {
     const total = calculateTotal(playerHand);
     if (total > 21) {
         setTimeout(() => {
+            disableActions();
             updateUI(true);
             setTimeout(() => endGame(), 600);
         }, 600);
@@ -96,16 +97,19 @@ function hit() {
 
 function stand() {
     updateUI(false); // Hide hole card first
-    setTimeout(() => {
-        while (calculateTotal(dealerHand) < 17) {
-            dealerHand.push(deck.pop());
-        }
-        updateUI(true); // Reveal full dealer hand
+    setTimeout(async () => {
+    updateUI(true); // Flip dealer hole card first
+    await new Promise(r => setTimeout(r, 600)); // Delay before drawing
 
-        setTimeout(() => {
-            endGame();
-        }, 600);
-    }, 600);
+    while (calculateTotal(dealerHand) < 17) {
+        dealerHand.push(deck.pop());
+        updateUI(true);
+        await new Promise(r => setTimeout(r, 600)); // Delay between each dealer draw
+    }
+
+    disableActions();
+    setTimeout(() => endGame(), 600);
+}, 600);;
 }
 
 function doubleDown() {
@@ -125,6 +129,7 @@ function doubleDown() {
     const total = calculateTotal(playerHand);
     if (total > 21) {
         setTimeout(() => {
+            disableActions();
             updateUI(true);
             setTimeout(() => endGame(), 600);
         }, 600);
