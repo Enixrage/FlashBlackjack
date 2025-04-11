@@ -115,6 +115,7 @@ function endGame() {
     const playerTotal = calculateTotal(playerHand);
     const dealerTotal = calculateTotal(dealerHand);
     let result = '';
+    let resultMessage = '';
 
     if (playerTotal > 21) {
         result = 'You bust! Dealer wins.';
@@ -131,19 +132,25 @@ function endGame() {
         money += currentBet;
     }
 
-    // Display result in a dialog
-    alert(result);
+    // Show modal popup
+    document.getElementById('result-text').textContent = result;
+    document.getElementById('result-message').textContent = `Your balance: $${money}`;
+    document.getElementById('result-popup').style.display = 'flex';
 
-    // Ask to place another bet or quit
-    const playAgain = confirm("Would you like to bet again?");
-    if (playAgain) {
-        resetGame();
-    } else {
-        // Go back to the home screen or menu (implement as needed)
-        window.location.href = "index.html"; // Adjust the URL to your home screen
-    }
+    // Hide game UI
+    document.getElementById('game-container').style.display = 'none';
 
     updateBalanceDisplay();
+}
+
+function playAgain() {
+    resetGame();
+    document.getElementById('result-popup').style.display = 'none';
+    document.getElementById('bet-container').style.display = 'flex';
+}
+
+function quitToHome() {
+    window.location.href = "index.html";
 }
 
 function disableActions() {
