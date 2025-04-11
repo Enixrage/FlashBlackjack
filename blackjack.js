@@ -2,8 +2,9 @@ let deck, playerHand, dealerHand;
 let money = 1000;
 let currentBet = 0;
 let isDoubleDown = false;
-let dealerCardTimeouts = []; // To manage timeouts for card drawing
+let gameEnded = false; // To prevent actions after game ends
 
+// Create deck, shuffle, etc.
 function createDeck() {
     const suits = ['♠', '♥', '♣', '♦'];
     const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
@@ -28,18 +29,15 @@ function renderCard(card) {
     const suitChar = card.suit === '♠' ? 'S' : card.suit === '♥' ? 'H' : card.suit === '♣' ? 'C' : 'D';
     let cardImageUrl;
 
-    // Check if the card is face down (BACK)
     if (card.value === 'BACK') {
         cardImageUrl = 'cards.php?card=BACK'; // URL for the face-down card
     } else {
         cardImageUrl = `cards.php?card=${card.value}${suitChar}`; // Regular card URL
     }
 
-    // Return the card image HTML with appropriate alt text
     const altText = card.value === 'BACK' ? 'Back' : `${card.value}${card.suit}`;
     return `<img class="card" src="${cardImageUrl}" alt="${altText}">`;
 }
-
 
 function updateUI(showDealerHoleCard = false) {
     const dealerCards = document.getElementById('dealer-cards');
@@ -47,6 +45,7 @@ function updateUI(showDealerHoleCard = false) {
     const dealerTotal = document.getElementById('dealer-total');
     const playerTotal = document.getElementById('player-total');
 
+    // Show dealer cards, and flip hole card if needed
     dealerCards.innerHTML = dealerHand.map((card, index) => {
         if (index === 1 && !showDealerHoleCard) {
             return `<img class="card flip" src="cards.php?card=BACK" alt="BACK">`;
@@ -56,6 +55,7 @@ function updateUI(showDealerHoleCard = false) {
 
     playerCards.innerHTML = playerHand.map(card => renderCard(card)).join('');
 
+    // Update totals
     dealerTotal.textContent = 'Total: ' + (showDealerHoleCard ? calculateTotal(dealerHand) : '??');
     playerTotal.textContent = 'Total: ' + calculateTotal(playerHand);
 }
@@ -81,13 +81,10 @@ function dealInitial() {
     deck = createDeck();
     playerHand = [deck.pop(), deck.pop()];
     dealerHand = [deck.pop(), deck.pop()];
-    
-    // Apply animation to dealer cards when initially dealt
-    updateUI();
-    document.querySelectorAll('.dealer-card').forEach(card => {
-        card.classList.add('card-animate');
-    });
 
+    // Render initial cards
+    updateUI();
+    
     const playerTotal = calculateTotal(playerHand);
     if (playerTotal === 21) {
         // Blackjack!
@@ -99,45 +96,39 @@ function dealInitial() {
     }
 }
 
-
+// Hit function
 function hit() {
-    if (isDoubleDown) return;
+    if (gameEnded || isDoubleDown) return; // Prevent hitting after stand or double down
     playerHand.push(deck.pop());
     updateUI();
     const total = calculateTotal(playerHand);
     if (total > 21) {
         endGame();  // End game if player busts (over 21)
     }
-    
-    // Disable animation for dealer's cards during player's hit
-    document.querySelectorAll('.dealer-card').forEach(card => {
-        card.classList.remove('card-animate');
-    });
 }
 
-
+// Stand function
 function stand() {
+    if (gameEnded) return; // Prevent standing after the game has ended
+    gameEnded = true; // Prevent further actions (hit/stand)
+    disableActions(); // Disable buttons
+    
     updateUI(false); // Hide hole card first
     setTimeout(() => {
+        // Dealer's turn: reveal hole card
+        updateUI(true);
+        // Dealer's action: draw cards until reaching at least 17
         while (calculateTotal(dealerHand) < 17) {
-            // Animate dealer's card draw
-            dealerCardTimeouts.push(setTimeout(() => {
-                dealerHand.push(deck.pop());
-                updateUI(false); // Hide the hole card until all drawn
-            }, 1000 * dealerCardTimeouts.length)); // Delay each card draw by 1 second
-
+            dealerHand.push(deck.pop());
+            updateUI(true); // Reveal dealer's hand as it's drawn
         }
-
-        // After dealer's hand is fully revealed
         setTimeout(() => {
-            updateUI(true); // Reveal full dealer hand
-            setTimeout(() => {
-                endGame();
-            }, 600); // Wait a little before ending the game
-        }, 1000 * dealerCardTimeouts.length);
-    }, 600); // Initial delay after stand
+            endGame(); // End game after dealer's turn
+        }, 600);
+    }, 600); // Wait a moment before revealing the hole card
 }
 
+// Double down function
 function doubleDown() {
     if (isDoubleDown || currentBet * 2 > money + currentBet || playerHand.length > 2) {
         alert("You can only double down before hitting or after your first card.");
@@ -163,6 +154,7 @@ function doubleDown() {
     }
 }
 
+// End game function
 function endGame() {
     const playerTotal = calculateTotal(playerHand);
     const dealerTotal = calculateTotal(dealerHand);
@@ -204,7 +196,17 @@ function quitToHome() {
 }
 
 function disableActions() {
-    // Disable buttons manually or simply let Quit go back to bet
+    // Disable hit, stand, double down buttons
+    document.getElementById('hit-button').disabled = true;
+    document.getElementById('stand-button').disabled = true;
+    document.getElementById('double-button').disabled = true;
+}
+
+function enableActions() {
+    // Enable buttons for player actions
+    document.getElementById('hit-button').disabled = false;
+    document.getElementById('stand-button').disabled = false;
+    document.getElementById('double-button').disabled = false;
 }
 
 function updateBalanceDisplay() {
@@ -229,6 +231,7 @@ function placeBet() {
     clearResult();
 
     isDoubleDown = false;
+    gameEnded = false;
 
     document.getElementById('bet-container').style.display = 'none';
     document.getElementById('game-container').style.display = 'block';
@@ -243,6 +246,7 @@ function resetGame() {
     dealerHand = [];
     currentBet = 0;
     isDoubleDown = false;
+    gameEnded = false;
     clearResult();
     document.getElementById('player-cards').innerHTML = '';
     document.getElementById('dealer-cards').innerHTML = '';
@@ -251,10 +255,6 @@ function resetGame() {
     document.getElementById('bet-input').value = '';
     document.getElementById('bet-container').style.display = 'flex';
     document.getElementById('game-container').style.display = 'none';
-
-    // Clear dealer card timeouts
-    dealerCardTimeouts.forEach(timeout => clearTimeout(timeout));
-    dealerCardTimeouts = [];
 }
 
 // Quick bet buttons
