@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { flashcards } from './falshcards';
 
+
 export default function FlashcardApp() {
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
@@ -48,12 +49,12 @@ export default function FlashcardApp() {
             <p><strong>Player:</strong> {card.playerTotal}</p>
             <p><strong>Dealer:</strong> {card.dealerUpcard}</p>
             {difficulty === "easy" && (
-              <p className="hint">💡 Hint: {card.hint}</p>
+              <p className="hint"> Hint: {card.hint}</p>
             )}
             <p className="note">Click to flip</p>
           </>
         ) : (
-          <p className="strategy">🧠 Strategy: {card.strategy}</p>
+          <p className="strategy"> Strategy: {card.strategy}</p>
         )}
       </div>
 
@@ -63,8 +64,8 @@ export default function FlashcardApp() {
       </div>
 
       <div className="scoring">
-        <p>✅ Correct: {correctCount}</p>
-        <p>❌ Incorrect: {incorrectCount}</p>
+        <p> Correct: {correctCount}</p>
+        <p> Incorrect: {incorrectCount}</p>
         <button onClick={handleCorrect}>I Got It Right</button>
         <button onClick={handleIncorrect}>I Got It Wrong</button>
       </div>
