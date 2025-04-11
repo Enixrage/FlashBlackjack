@@ -1,4 +1,4 @@
-export const flashcards = [
+const flashcards = [
     {
       id: 1,
       playerTotal: "16",
