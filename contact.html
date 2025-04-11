@@ -77,14 +77,26 @@
       color: black;
     }
 
+    .contact-section {
+      text-align: center;
+      max-width: 600px;
+      padding: 20px;
+    }
+
+    .contact-section p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
     .contact-form {
       background-color: rgba(0, 0, 0, 0.4);
       padding: 30px;
       border-radius: 15px;
-      max-width: 500px;
-      width: 90%;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-      margin-top: 30px;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
     }
 
     .contact-form h2 {
@@ -129,14 +141,21 @@
     <a href="login.html" class="login-button">Login</a>
   </header>
 
-  <div class="contact-form">
-    <h2>Contact Us</h2>
-    <form action="mailto:youremail@example.com" method="post" enctype="text/plain">
-      <input type="text" name="name" placeholder="Your Name" required />
-      <input type="email" name="email" placeholder="Your Email" required />
-      <textarea name="message" rows="6" placeholder="Your Message" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
+  <div class="contact-section">
+    <p>
+      Have a suggestion or some feedback for us? Whether it's a tweak to the game, new flashcard ideas, or feature requests—we want to hear from you!
+      Fill out the form below and let us know how we can make Blackjack BootCamp even better.
+    </p>
+
+    <div class="contact-form">
+      <h2>Contact Us</h2>
+      <form action="mailto:ky833222@ucf.edu" method="POST" enctype="text/plain">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <textarea name="message" rows="6" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
   </div>
 
 </body>
