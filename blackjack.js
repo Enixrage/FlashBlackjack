@@ -81,10 +81,16 @@ function dealInitial() {
     deck = createDeck();
     playerHand = [deck.pop(), deck.pop()];
     dealerHand = [deck.pop(), deck.pop()];
-    updateUI(false); // Show the dealer's face-down card
+    
+    // Apply animation to dealer cards when initially dealt
+    updateUI();
+    document.querySelectorAll('.dealer-card').forEach(card => {
+        card.classList.add('card-animate');
+    });
 
     const playerTotal = calculateTotal(playerHand);
     if (playerTotal === 21) {
+        // Blackjack!
         const winnings = Math.floor(currentBet * 2.5); // 1.5x plus original bet
         money += winnings;
         document.getElementById('result').textContent = 'Blackjack! You win 1.5x your bet!';
@@ -93,18 +99,20 @@ function dealInitial() {
     }
 }
 
+
 function hit() {
     if (isDoubleDown) return;
     playerHand.push(deck.pop());
     updateUI();
     const total = calculateTotal(playerHand);
-    if (total > 21) {
-        setTimeout(() => {
-            updateUI(true);
-            setTimeout(() => endGame(), 600);
-        }, 600);
-    }
+    if (total > 21) endGame();
+    
+    // Disable animation for dealer's cards during player's hit
+    document.querySelectorAll('.dealer-card').forEach(card => {
+        card.classList.remove('card-animate');
+    });
 }
+
 
 function stand() {
     updateUI(false); // Hide hole card first
