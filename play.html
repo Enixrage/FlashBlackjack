@@ -139,6 +139,11 @@
         text-align: center;
     }
 
+    /* Result and Play Again Section */
+    #result-container {
+        display: none;
+        margin-top: 20px;
+    }
 
   </style>
 </head>
@@ -189,8 +194,14 @@
           <button onclick="doubleDown()" class="button">Double Down</button>
       </div>
 
-      <!-- Result and Balance -->
-      <p id="result"></p>
+      <!-- Result and Play Again Section -->
+      <div id="result-container">
+          <p id="result"></p>
+          <button id="play-again-button" class="button" onclick="resetGame()">Play Again</button>
+          <button id="quit-button" class="button" onclick="quitToHome()">Quit to Home</button>
+      </div>
+
+      <!-- Balance -->
       <p id="balance"></p>
   </div>
 
