@@ -166,5 +166,18 @@
     </div>
   </div>
 
+  <div id="footer-container" style="width: 100%; padding: 0; margin: 0;">
+  <script>
+    // JavaScript to load the footer
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-container').innerHTML = data;
+      })
+      .catch(error => {
+        console.error('Error loading footer:', error);
+      });
+  </script>
+
 </body>
 </html>
