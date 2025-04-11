@@ -170,6 +170,7 @@ function playAgain() {
     resetGame();
     document.getElementById('result-popup').style.display = 'none';
     document.getElementById('bet-container').style.display = 'flex';
+    enableActions(); // <-- Re-enable Hit/Stand/Double
 }
 
 function quitToHome() {
@@ -239,9 +240,22 @@ function setQuickBet(amount) {
 }
 
 function disableActions() {
-    document.querySelectorAll('.button-container button').forEach(btn => btn.disabled = true);
+    document.querySelectorAll('.button-container .button').forEach(btn => {
+        if (btn.textContent === 'Hit' || btn.textContent === 'Stand' || btn.textContent === 'Double Down') {
+            btn.disabled = true;
+            btn.style.opacity = 0.5;
+            btn.style.cursor = 'not-allowed';
+        }
+    });
 }
 
 function enableActions() {
-    document.querySelectorAll('.button-container button').forEach(btn => btn.disabled = false);
+    document.querySelectorAll('.button-container .button').forEach(btn => {
+        if (btn.textContent === 'Hit' || btn.textContent === 'Stand' || btn.textContent === 'Double Down') {
+            btn.disabled = false;
+            btn.style.opacity = 1;
+            btn.style.cursor = 'pointer';
+        }
+    });
 }
+
