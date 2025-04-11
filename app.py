@@ -18,7 +18,7 @@ db = SQLAlchemy(app)
 mail = Mail(app)
 
 # Google OAuth client ID
-CLIENT_ID = 'YOUR_CLIENT_ID_HERE.apps.googleusercontent.com'  # Replace this
+CLIENT_ID = '987437750263-p3sjh6j924f44spcbvui4bce7lpnvprt.apps.googleusercontent.com'  # Replace this
 
 # User model
 class User(db.Model):
