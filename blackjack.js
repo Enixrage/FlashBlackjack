@@ -88,33 +88,34 @@ function hit() {
     updateUI();
     const total = calculateTotal(playerHand);
     if (total > 21) {
-        endGame();
+        setTimeout(() => {
+            updateUI(true);
+            setTimeout(() => endGame(), 600);
+        }, 600);
     }
 }
 
 function stand() {
-    if (gameEnded) return; // Prevent standing after the game has ended
-    gameEnded = true; // Prevent further actions (hit/stand)
-    disableActions(); // Disable buttons
-
     updateUI(false); // Hide hole card first
     setTimeout(() => {
-        // Reveal hole card after a delay
-        updateUI(true);
-        
-        // Dealer's turn: draw cards until reaching at least 17
-        while (calculateTotal(dealerHand) < 17 && deck.length > 0) {
-            dealerHand.push(deck.pop());
-            updateUI(true); // Reveal dealer's hand as it's drawn
+        while (calculateTotal(dealerHand) < 17) {
+            // Animate dealer's card draw
+            dealerCardTimeouts.push(setTimeout(() => {
+                dealerHand.push(deck.pop());
+                updateUI(false); // Hide the hole card until all drawn
+            }, 1000 * dealerCardTimeouts.length)); // Delay each card draw by 1 second
+
         }
 
-        // End game after dealer's turn
+        // After dealer's hand is fully revealed
         setTimeout(() => {
-            endGame(); // End game after dealer's turn
-        }, 600);
-    }, 600); // Wait a moment before revealing the hole card
+            updateUI(true); // Reveal full dealer hand
+            setTimeout(() => {
+                endGame();
+            }, 600);
+        }, 1000 * dealerCardTimeouts.length);
+    }, 600);
 }
-
 
 function doubleDown() {
     if (isDoubleDown || currentBet * 2 > money + currentBet || playerHand.length > 2) {
@@ -161,31 +162,13 @@ function endGame() {
         money += currentBet;
     }
 
-    // Show modal popup after 3 seconds
-    setTimeout(() => {
-        document.getElementById('result-text').textContent = result;
-        document.getElementById('result-message').textContent = `Your balance: $${money}`;
-        document.getElementById('result-popup').classList.add('show'); // Add class to make it visible
-    }, 3000); // 3000 milliseconds = 3 seconds
+    // Show modal popup
+    document.getElementById('result-text').textContent = result;
+    document.getElementById('result-message').textContent = `Your balance: $${money}`;
+    document.getElementById('result-popup').style.display = 'flex';
 
     updateBalanceDisplay();
-    disableActions(); // Disable all buttons after the game ends
 }
-
-function disableActions() {
-    // Disable hit, stand, double down buttons
-    document.getElementById('hit-button').disabled = true;
-    document.getElementById('stand-button').disabled = true;
-    document.getElementById('double-button').disabled = true;
-}
-
-function enableActions() {
-    // Enable buttons for player actions
-    document.getElementById('hit-button').disabled = false;
-    document.getElementById('stand-button').disabled = false;
-    document.getElementById('double-button').disabled = false;
-}
-
 
 function playAgain() {
     resetGame();
