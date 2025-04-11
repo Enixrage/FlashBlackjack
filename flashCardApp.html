@@ -41,6 +41,22 @@ body {
 .controls button, .scoring button {
   margin: 5px;
 }
+#play-again {
+  margin-top: 20px;
+  background-color: black;
+  color: white;
+  font-size: 20px;
+  padding: 15px 30px;
+  border: 2px solid white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  }
+
+#play-again:hover {
+    background-color: white;
+    color: black;
+}
   </style>
 </head>
 <body>
@@ -72,4 +88,10 @@ body {
 
   <script src="flashcards.js"></script>
 </body>
+<div class="button-container">
+  <button id="play-again" onclick="window.location.href='index.html'">Home</button>
+  <button id="play-again" onclick="window.location.href='play.html'">Play blackjack</button>
+  <button id="play-again" onclick="window.location.href='Howtoplay.html'">Rules</button>
+</div>
+
 </html>
