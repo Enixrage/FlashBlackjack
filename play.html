@@ -120,10 +120,6 @@
         color: black;
     }
 
-    #footer {
-        margin-top: auto; /* Makes sure the footer is at the bottom */
-        padding: 10px;
-    }
   </style>
 </head>
 <body>
@@ -176,7 +172,25 @@
       <!-- Play Again Button (Removed Quit Button) -->
   </div>
 
-  
+    <div id="footer-container" style="width: 100%; padding: 0; margin: 0; margin-top:auto;"></div>
+
+  <script>
+    // Load header
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-container').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading header:', error));
+
+    // Load footer
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-container').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading footer:', error));
+  </script>
 
   <script src="blackjack.js"></script>
 </body>
