@@ -105,7 +105,9 @@ function hit() {
     playerHand.push(deck.pop());
     updateUI();
     const total = calculateTotal(playerHand);
-    if (total > 21) endGame();
+    if (total > 21) {
+        endGame();  // End game if player busts (over 21)
+    }
     
     // Disable animation for dealer's cards during player's hit
     document.querySelectorAll('.dealer-card').forEach(card => {
@@ -131,9 +133,9 @@ function stand() {
             updateUI(true); // Reveal full dealer hand
             setTimeout(() => {
                 endGame();
-            }, 600);
+            }, 600); // Wait a little before ending the game
         }, 1000 * dealerCardTimeouts.length);
-    }, 600);
+    }, 600); // Initial delay after stand
 }
 
 function doubleDown() {
@@ -181,13 +183,12 @@ function endGame() {
         money += currentBet;
     }
 
-    // Show modal popup
-    document.getElementById('result-text').textContent = result;
-    document.getElementById('result-message').textContent = `Your balance: $${money}`;
-
+    // Show modal popup after 3 seconds
     setTimeout(() => {
+        document.getElementById('result-text').textContent = result;
+        document.getElementById('result-message').textContent = `Your balance: $${money}`;
         document.getElementById('result-popup').classList.add('show'); // Add class to make it visible
-    }, 2000); // 2000 milliseconds = 2 seconds
+    }, 3000); // 3000 milliseconds = 3 seconds
 
     updateBalanceDisplay();
 }
