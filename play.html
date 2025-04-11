@@ -18,8 +18,8 @@
         color: white;
         display: flex;
         flex-direction: column;
-        justify-content: space-between; /* Ensures footer stays at the bottom */
-        align-items: center;
+        justify-content: center; /* Vertically center the content */
+        align-items: center; /* Horizontally center the content */
         min-height: 100vh;
         text-align: center;
         padding-top: 110px; /* Space for the fixed header */
@@ -64,7 +64,7 @@
         justify-content: center; /* Center align cards */
         align-items: center;
         gap: 10px; /* Decrease space between cards */
-        flex-wrap: wrap; /* Allow cards to wrap to a new line if needed */
+        flex-wrap: nowrap; /* Prevent wrapping of cards */
         margin-top: 60px; /* Push cards down */
     }
 
@@ -88,7 +88,10 @@
 
     /* Bet Input Styling */
     #bet-container {
-        margin-top: 20px;
+        position: absolute;
+        top: 50%; /* Vertically center */
+        left: 50%; /* Horizontally center */
+        transform: translate(-50%, -50%); /* Perfectly center */
         display: flex;
         flex-direction: column;
         align-items: center;
