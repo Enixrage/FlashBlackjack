@@ -2,6 +2,7 @@ let deck, playerHand, dealerHand;
 let money = 1000;
 let currentBet = 0;
 let isDoubleDown = false;
+let dealerCardTimeouts = []; // To manage timeouts for card drawing
 
 function createDeck() {
     const suits = ['♠', '♥', '♣', '♦'];
@@ -29,14 +30,22 @@ function renderCard(card) {
     return `<img class="card" src="${cardImageUrl}" alt="${card.value}${card.suit}">`;
 }
 
-function updateUI() {
+function updateUI(showDealerHoleCard = false) {
     const dealerCards = document.getElementById('dealer-cards');
     const playerCards = document.getElementById('player-cards');
     const dealerTotal = document.getElementById('dealer-total');
     const playerTotal = document.getElementById('player-total');
-    dealerCards.innerHTML = dealerHand.map(card => renderCard(card)).join('');
+
+    dealerCards.innerHTML = dealerHand.map((card, index) => {
+        if (index === 1 && !showDealerHoleCard) {
+            return `<img class="card flip" src="cards.php?card=BACK" alt="facedowncard">`;
+        }
+        return renderCard(card);
+    }).join('');
+
     playerCards.innerHTML = playerHand.map(card => renderCard(card)).join('');
-    dealerTotal.textContent = 'Total: ' + calculateTotal(dealerHand);
+
+    dealerTotal.textContent = 'Total: ' + (showDealerHoleCard ? calculateTotal(dealerHand) : '??');
     playerTotal.textContent = 'Total: ' + calculateTotal(playerHand);
 }
 
@@ -61,11 +70,10 @@ function dealInitial() {
     deck = createDeck();
     playerHand = [deck.pop(), deck.pop()];
     dealerHand = [deck.pop(), deck.pop()];
-    updateUI();
+    updateUI(false); // Show the dealer's face-down card
 
     const playerTotal = calculateTotal(playerHand);
     if (playerTotal === 21) {
-        // Blackjack!
         const winnings = Math.floor(currentBet * 2.5); // 1.5x plus original bet
         money += winnings;
         document.getElementById('result').textContent = 'Blackjack! You win 1.5x your bet!';
@@ -79,15 +87,34 @@ function hit() {
     playerHand.push(deck.pop());
     updateUI();
     const total = calculateTotal(playerHand);
-    if (total > 21) endGame();
+    if (total > 21) {
+        setTimeout(() => {
+            updateUI(true);
+            setTimeout(() => endGame(), 600);
+        }, 600);
+    }
 }
 
 function stand() {
-    while (calculateTotal(dealerHand) < 17) {
-        dealerHand.push(deck.pop());
-    }
-    updateUI();
-    endGame();
+    updateUI(false); // Hide hole card first
+    setTimeout(() => {
+        while (calculateTotal(dealerHand) < 17) {
+            // Animate dealer's card draw
+            dealerCardTimeouts.push(setTimeout(() => {
+                dealerHand.push(deck.pop());
+                updateUI(false); // Hide the hole card until all drawn
+            }, 1000 * dealerCardTimeouts.length)); // Delay each card draw by 1 second
+
+        }
+
+        // After dealer's hand is fully revealed
+        setTimeout(() => {
+            updateUI(true); // Reveal full dealer hand
+            setTimeout(() => {
+                endGame();
+            }, 600);
+        }, 1000 * dealerCardTimeouts.length);
+    }, 600);
 }
 
 function doubleDown() {
@@ -103,11 +130,15 @@ function doubleDown() {
 
     playerHand.push(deck.pop());
     updateUI();
+
     const total = calculateTotal(playerHand);
     if (total > 21) {
-        endGame();
+        setTimeout(() => {
+            updateUI(true);
+            setTimeout(() => endGame(), 600);
+        }, 600);
     } else {
-        stand(); // Player stands after one card
+        stand();
     }
 }
 
@@ -115,7 +146,6 @@ function endGame() {
     const playerTotal = calculateTotal(playerHand);
     const dealerTotal = calculateTotal(dealerHand);
     let result = '';
-    let resultMessage = '';
 
     if (playerTotal > 21) {
         result = 'You bust! Dealer wins.';
@@ -136,7 +166,6 @@ function endGame() {
     document.getElementById('result-text').textContent = result;
     document.getElementById('result-message').textContent = `Your balance: $${money}`;
     document.getElementById('result-popup').style.display = 'flex';
-
 
     updateBalanceDisplay();
 }
@@ -199,6 +228,10 @@ function resetGame() {
     document.getElementById('bet-input').value = '';
     document.getElementById('bet-container').style.display = 'flex';
     document.getElementById('game-container').style.display = 'none';
+
+    // Clear dealer card timeouts
+    dealerCardTimeouts.forEach(timeout => clearTimeout(timeout));
+    dealerCardTimeouts = [];
 }
 
 // Quick bet buttons
