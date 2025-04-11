@@ -1,3 +1,4 @@
+<!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,6 +55,12 @@
             font-size: 16px;
         }
 
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
         .submit-btn {
             width: 100%;
             padding: 15px;
@@ -70,71 +77,66 @@
             background-color: #ccc;
         }
 
-        /* Google Login button style */
         .g-signin2 {
-            margin-top: 20px;
-            width: 100%;
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <div id="header-container" style="width: 100%; padding: 0; margin: 0;"></div>
+    <div id="header-container"></div>
 
-    <!-- Login Form -->
     <div class="form-container">
-        <h2>Create Account</h2>
-        <form action="/register" method="POST">
+        <h2>Login</h2>
+        <form>
             <label for="username">Username</label>
             <input type="text" name="username" required>
 
             <label for="password">Password</label>
             <input type="password" name="password" required>
 
-            <button type="submit" class="submit-btn">Register</button>
-            <button type="submit" class="submit-btn">Sign Up</button>
+            <div class="btn-group">
+                <button type="button" class="submit-btn" onclick="location.href='index.html'">Login</button>
+                <button type="button" class="submit-btn" onclick="location.href='signup.html'">Sign Up</button>
+            </div>
         </form>
 
-        <!-- Google Sign-In button -->
         <div class="g-signin2" data-onsuccess="onSignIn"></div>
     </div>
 
-    <div id="footer-container" style="width: 100%; padding: 0; margin: 0; margin-auto: top;">
-        <script>
-            // Load header and footer
-            fetch('header.html')
-              .then(res => res.text())
-              .then(data => document.getElementById('header-container').innerHTML = data);
+    <div id="footer-container"></div>
 
-            fetch('footer.html')
-              .then(res => res.text())
-              .then(data => document.getElementById('footer-container').innerHTML = data);
+    <script>
+        fetch('header.html')
+            .then(res => res.text())
+            .then(data => document.getElementById('header-container').innerHTML = data);
 
-            // Google Sign-In logic
-            function onSignIn(googleUser) {
-                const id_token = googleUser.getAuthResponse().id_token;
+        fetch('footer.html')
+            .then(res => res.text())
+            .then(data => document.getElementById('footer-container').innerHTML = data);
 
-                fetch('/auth/google', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ id_token })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.redirect) {
-                        window.location.href = data.redirect;
-                    } else {
-                        alert('Login failed');
-                    }
-                })
-                .catch(err => {
-                    console.error('Google Login Error:', err);
-                });
-            }
-        </script>
-    </div>
+        function onSignIn(googleUser) {
+            const id_token = googleUser.getAuthResponse().id_token;
+
+            fetch('/auth/google', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id_token })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                } else {
+                    alert('Login failed');
+                }
+            })
+            .catch(err => {
+                console.error('Google Login Error:', err);
+            });
+        }
+    </script>
 </body>
 </html>
