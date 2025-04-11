@@ -129,6 +129,53 @@
         color: black;
     }
 
+    /* Result Popup Styling */
+#result-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.result-popup-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    color: black;
+}
+
+#result-popup .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+#result-popup button {
+    background-color: black;
+    color: white;
+    font-size: 18px;
+    padding: 15px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#result-popup button:hover {
+    background-color: white;
+    color: black;
+}
+
+
     /* Footer */
     #footer-container {
         margin-top: auto; /* Ensures footer stays at the bottom */
@@ -193,6 +240,18 @@
       <p id="result"></p>
       <p id="balance"></p>
   </div>
+  <!-- Result Pop-up Container -->
+<div id="result-popup" style="display: none;">
+  <div class="result-popup-content">
+    <h2 id="result-text"></h2>
+    <p id="result-message"></p>
+    <div class="button-container">
+      <button onclick="playAgain()" class="button">Play Again</button>
+      <button onclick="quitToHome()" class="button">Quit to Home</button>
+    </div>
+  </div>
+</div>
+
 
   <div id="footer-container"></div>
 
