@@ -26,9 +26,20 @@ function shuffle(deck) {
 
 function renderCard(card) {
     const suitChar = card.suit === '♠' ? 'S' : card.suit === '♥' ? 'H' : card.suit === '♣' ? 'C' : 'D';
-    const cardImageUrl = `cards.php?card=${card.value}${suitChar}`;
-    return `<img class="card" src="${cardImageUrl}" alt="${card.value}${card.suit}">`;
+    let cardImageUrl;
+
+    // Check if the card is face down (BACK)
+    if (card.value === 'BACK') {
+        cardImageUrl = 'cards.php?card=BACK'; // URL for the face-down card
+    } else {
+        cardImageUrl = `cards.php?card=${card.value}${suitChar}`; // Regular card URL
+    }
+
+    // Return the card image HTML with appropriate alt text
+    const altText = card.value === 'BACK' ? 'Back' : `${card.value}${card.suit}`;
+    return `<img class="card" src="${cardImageUrl}" alt="${altText}">`;
 }
+
 
 function updateUI(showDealerHoleCard = false) {
     const dealerCards = document.getElementById('dealer-cards');
