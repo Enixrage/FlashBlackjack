@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Blackjack Game</title>
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
-  <link rel="manifest" href="/images/site.webmanifest">
   <style>
     body {
       margin: 0;
@@ -17,36 +13,10 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-height: 100vh;
-      padding-top: 20px;
-    }
-
-    header {
-      background-color: black;
-      color: white;
-      padding: 20px;
-      display: flex;
-      align-items: center;
       justify-content: center;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 10;
-      box-sizing: border-box;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 36px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-    }
-
-    header img {
-      height: 40px;
-      margin-right: 10px;
+      min-height: 100vh;
+      text-align: center;
+      padding-top: 10px;
     }
 
     #bet-container {
@@ -57,7 +27,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      z-index: 1;
     }
 
     #bet-container input {
@@ -79,12 +48,68 @@
       border: 2px solid white;
       border-radius: 8px;
       cursor: pointer;
-      transition: all 0.3s ease;
     }
 
     #bet-container button:hover {
       background-color: white;
       color: black;
+    }
+
+    #quick-bet-container button {
+      margin: 5px;
+      padding: 5px 10px;
+      font-size: 16px;
+      background-color: black;
+      color: white;
+      border: 2px solid white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #quick-bet-container button:hover {
+      background-color: white;
+      color: black;
+    }
+
+    #game-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .hand-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .hand-title {
+      width: 130px;
+      text-align: right;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .hand-cards {
+      display: grid;
+      grid-auto-flow: column;
+      gap: 10px;
+    }
+
+    .hand-total {
+      font-size: 20px;
+      margin-left: 20px;
+    }
+
+    .card {
+      width: 100px;
+      height: auto;
     }
 
     .button-container {
@@ -103,7 +128,6 @@
       border: 2px solid white;
       border-radius: 10px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
     }
 
     .button:hover {
@@ -111,49 +135,17 @@
       color: black;
     }
 
-    .card {
-      width: 100px;
-      height: auto;
-      margin: 0 5px;
-      display: inline-block;
+    #result, #balance {
+      font-size: 20px;
+      margin-top: 10px;
     }
 
-    #game-container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 40px;
-    }
-
-    .player-row, .dealer-row {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .hand-title {
-      min-width: 120px;
-      text-align: right;
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    .hand {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
+    #balance {
+      text-align: center;
+      width: 100%;
     }
 
     #footer-container {
-      margin-top: auto;
       width: 100%;
       padding: 20px;
       background-color: black;
@@ -163,8 +155,11 @@
   </style>
 </head>
 <body>
+
+  <!-- Header placeholder -->
   <div id="header-container"></div>
 
+  <!-- Bet Placement -->
   <div id="bet-container">
     <h2>Place Your Bet</h2>
     <input type="number" id="bet-input" placeholder="Enter Bet Amount" min="1" step="1">
@@ -178,18 +173,19 @@
     <p id="balance">Balance: $1000</p>
   </div>
 
+  <!-- Game Area -->
   <div id="game-container" style="display: none;">
-    <div class="dealer-row">
+    <div class="hand-row">
       <div class="hand-title">Dealer's Hand</div>
-      <div id="dealer-cards" class="hand"></div>
+      <div id="dealer-cards" class="hand-cards"></div>
+      <p id="dealer-total" class="hand-total">Total: 18</p>
     </div>
-    <p id="dealer-total"></p>
 
-    <div class="player-row">
+    <div class="hand-row">
       <div class="hand-title">Your Hand</div>
-      <div id="player-cards" class="hand"></div>
+      <div id="player-cards" class="hand-cards"></div>
+      <p id="player-total" class="hand-total">Total: 20</p>
     </div>
-    <p id="player-total"></p>
 
     <div class="button-container">
       <button onclick="hit()" class="button">Hit</button>
@@ -198,23 +194,20 @@
     </div>
 
     <p id="result"></p>
-    <p id="balance"></p>
+    <p id="balance">Balance: $1000</p>
   </div>
 
+  <!-- Footer placeholder -->
   <div id="footer-container"></div>
 
   <script>
     fetch('header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('header-container').innerHTML = data;
-      });
+      .then(res => res.text())
+      .then(data => document.getElementById('header-container').innerHTML = data);
 
     fetch('footer.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('footer-container').innerHTML = data;
-      });
+      .then(res => res.text())
+      .then(data => document.getElementById('footer-container').innerHTML = data);
   </script>
   <script src="blackjack.js"></script>
 </body>
