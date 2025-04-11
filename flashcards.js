@@ -70,8 +70,7 @@ export const flashcards = [
       hint: "16 is the worst hand - always split."
     },
   ];
-<<<<<<< HEAD:falshcards.js
-  let index = 0;
+let index = 0;
 let flipped = false;
 let correctCount = 0;
 let incorrectCount = 0;
@@ -133,7 +132,3 @@ difficultyEl.addEventListener("change", renderCard);
 
 // Initial render
 renderCard();
-
-=======
-  
->>>>>>> 7b65c0035c33465fff57d9d7a9503aa210190e8b:flashcards.js
