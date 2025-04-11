@@ -191,6 +191,8 @@ function placeBet() {
         return;
     }
 
+    enableActions();
+
     currentBet = betAmount;
     money -= currentBet;
     updateBalanceDisplay();
