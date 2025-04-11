@@ -1,18 +1,19 @@
-<!-- login.html -->
+<!-- signup.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
     <link rel="manifest" href="/images/site.webmanifest">
-    
+  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Blackjack BootCamp</title>
-    <meta name="google-signin-client_id" content="987437750263-p3sjh6j924f44spcbvui4bce7lpnvprt.apps.googleusercontent.com"> 
-    <script src="https://apis.google.com/js/platform.js" async defer></script> 
+    <title>Sign Up - Blackjack BootCamp</title>
+    <link rel="stylesheet" href="login.css"> <!-- Optional: Extract CSS into a shared file -->
     <style>
+        /* You can reuse the same CSS styles from login.html here */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -55,12 +56,6 @@
             font-size: 16px;
         }
 
-        .btn-group {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
         .submit-btn {
             width: 100%;
             padding: 15px;
@@ -76,34 +71,28 @@
         .submit-btn:hover {
             background-color: #ccc;
         }
-
-        .g-signin2 {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-        }
     </style>
 </head>
 <body>
-
     <div id="header-container"></div>
 
     <div class="form-container">
-        <h2>Login</h2>
-        <form>
+        <h2>Sign Up</h2>
+        <form action="/register" method="POST">
             <label for="username">Username</label>
             <input type="text" name="username" required>
+
+            <label for="email">Email</label>
+            <input type="email" name="email" required>
 
             <label for="password">Password</label>
             <input type="password" name="password" required>
 
-            <div class="btn-group">
-                <button type="button" class="submit-btn" onclick="location.href='index.html'">Login</button>
-                <button type="button" class="submit-btn" onclick="location.href='signup.html'">Sign Up</button>
-            </div>
-        </form>
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" name="confirmPassword" required>
 
-        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <button type="submit" class="submit-btn">Create Account</button>
+        </form>
     </div>
 
     <div id="footer-container" style="width: 100%; padding: 0; margin: 0; margin-top:auto;"></div>
@@ -116,27 +105,6 @@
         fetch('footer.html')
             .then(res => res.text())
             .then(data => document.getElementById('footer-container').innerHTML = data);
-
-        function onSignIn(googleUser) {
-            const id_token = googleUser.getAuthResponse().id_token;
-
-            fetch('/auth/google', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id_token })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.redirect) {
-                    window.location.href = data.redirect;
-                } else {
-                    alert('Login failed');
-                }
-            })
-            .catch(err => {
-                console.error('Google Login Error:', err);
-            });
-        }
     </script>
 </body>
 </html>
