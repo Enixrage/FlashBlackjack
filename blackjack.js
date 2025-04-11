@@ -137,8 +137,6 @@ function endGame() {
     document.getElementById('result-message').textContent = `Your balance: $${money}`;
     document.getElementById('result-popup').style.display = 'flex';
 
-    // Hide game UI
-    document.getElementById('game-container').style.display = 'none';
 
     updateBalanceDisplay();
 }
