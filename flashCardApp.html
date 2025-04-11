@@ -4,25 +4,44 @@
   <meta charset="UTF-8" />
   <title>Blackjack Flashcards</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
-    .card {
-      border: 2px solid #333;
-      padding: 20px;
-      margin-top: 20px;
-      cursor: pointer;
-      background-color: #000000;
-      border-radius: 10px;
-    }
-    .hint { color: green; margin-top: 10px; }
-    .strategy { color: navy; font-weight: bold; }
-    .controls, .scoring {
-      margin-top: 20px;
-    }
-    .controls button, .scoring button {
-      margin-right: 10px;
-    }
+    html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.card {
+  border: 2px solid #333;
+  padding: 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  background-color: #000000;
+  border-radius: 10px;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+}
+
+.hint { color: limegreen; margin-top: 10px; }
+.strategy { color: skyblue; font-weight: bold; }
+.controls, .scoring {
+  margin-top: 20px;
+}
+.controls button, .scoring button {
+  margin: 5px;
+}
   </style>
-  <link rel="stylesheet" href="Home.css">
 </head>
 <body>
   <h2>Blackjack Strategy Flashcards</h2>
