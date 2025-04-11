@@ -176,7 +176,10 @@ function endGame() {
     // Show modal popup
     document.getElementById('result-text').textContent = result;
     document.getElementById('result-message').textContent = `Your balance: $${money}`;
-    document.getElementById('result-popup').style.display = 'flex';
+
+    setTimeout(() => {
+        document.getElementById('result-popup').classList.add('show'); // Add class to make it visible
+    }, 2000); // 2000 milliseconds = 2 seconds
 
     updateBalanceDisplay();
 }
