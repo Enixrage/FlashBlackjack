@@ -21,8 +21,13 @@ $bucket = 'cis4004bucket';
 if (isset($_GET['card'])) {
     $card = $_GET['card'];  // Get the card name (e.g., 'AS', '10S')
 
-    // Define the path or file naming convention for your card images in S3
-    $key = "{$card}.png";  // Assuming cards are stored as 'AS.png', '10S.png', etc.
+    // Check if the requested card is the face-down card (BACK)
+    if ($card === 'BACK') {
+        $key = 'facedowncard.png';  // Path to the face-down card image (facedowncard.png)
+    } else {
+        // Define the path or file naming convention for your card images in S3
+        $key = "{$card}.png";  // Assuming cards are stored as 'AS.png', '10S.png', etc.
+    }
 
     try {
         // Get the card image from S3
