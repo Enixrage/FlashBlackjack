@@ -148,4 +148,32 @@ function disableActions() {
 }
 
 function updateBalanceDisplay() {
-    document.querySelectorAll('#balance').forEach(el => el
+    document.querySelectorAll('#balance').forEach(el => el.textContent = 'Balance: $' + money);
+}
+
+function quitToHome() {
+    window.location.href = 'index.html'; // Navigate back to the home page
+}
+
+function resetGame() {
+    deck = [];
+    playerHand = [];
+    dealerHand = [];
+    currentBet = 0;
+    isDoubleDown = false;
+    clearResult();
+    document.getElementById('player-cards').innerHTML = '';
+    document.getElementById('dealer-cards').innerHTML = '';
+    document.getElementById('player-total').textContent = '';
+    document.getElementById('dealer-total').textContent = '';
+    document.getElementById('bet-input').value = '';
+    document.getElementById('bet-container').style.display = 'flex';
+    document.getElementById('game-container').style.display = 'none';
+
+    // Hide the result and play-again button when resetting the game
+    document.getElementById('result-container').style.display = 'none';
+    document.querySelector('.button-container').style.display = 'flex';
+    document.getElementById('dealer-cards').style.display = 'flex';
+    document.getElementById('player-cards').style.display = 'flex';
+}
+
