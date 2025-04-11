@@ -121,43 +121,7 @@
       border-color: black;
     }
 
-    footer {
-      background-color: black;
-      color: white;
-      padding: 20px;
-      width: 100%;
-      text-align: center;
-      margin-top: auto;
-    }
-
-    .footer-links {
-      margin-bottom: 10px;
-    }
-
-    .footer-links a {
-      color: white;
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: bold;
-    }
-
-    .footer-links a:hover {
-      text-decoration: underline;
-    }
-
-    .contact-button {
-      background-color: white;
-      color: black;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: 0.3s ease;
-    }
-
-    .contact-button:hover {
-      background-color: #ccc;
-    }
+    
   </style>
 </head>
 <body>
@@ -184,15 +148,14 @@
     <a href="flashCardApp.html"><button class="button">Flash Cards</button></a>
   </div>
 
-  <footer>
-    <div class="footer-links">
-      <a href="index.html">Home</a> |
-      <a href="play.html">Play</a> |
-      <a href="Howtoplay.html">How to Play</a> |
-      <a href="flashCardApp.html">Flash Cards</a> |
-      <a href="contact.html">Contact Us</a>
-    </div>
-  </footer>
+  <script>
+  fetch("footer.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("footer").innerHTML = data;
+    });
+</script>
+
 
 </body>
 </html>
