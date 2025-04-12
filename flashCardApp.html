@@ -1,122 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+  <meta charset="UTF-8" />
+  <title>Blackjack Flashcards</title>
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
   <link rel="manifest" href="/images/site.webmanifest">
-  
-  <meta charset="UTF-8" />
-  <title>Blackjack Flashcards</title>
+
   <style>
     html, body {
-  height: 100%;
-  margin: 0;
-  font-family: Arial, sans-serif;
-}
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #004d00;
+    }
 
-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 40px;
-  background-color: #006400;
-}
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 100px 20px 60px; /* top padding to avoid fixed header overlap */
+      box-sizing: border-box;
+    }
 
-.card {
-  border: 2px solid #333;
-  padding: 20px;
-  margin-top: 20px;
-  cursor: pointer;
-  background-color: #000000;
-  border-radius: 10px;
-  color: #fff;
-  text-align: center;
-  width: 100%;
-  max-width: 500px;
-}
+    main {
+      width: 100%;
+      max-width: 800px;
+      padding: 20px;
+      box-sizing: border-box;
+    }
 
-.hint { color: limegreen; margin-top: 10px; }
-.strategy { color: skyblue; font-weight: bold; }
-.controls, .scoring {
-  margin-top: 20px;
-}
-.controls button, .scoring button {
-  margin: 5px;
-}
-#play-again {
-  margin-top: 20px;
-  background-color: black;
-  color: white;
-  font-size: 20px;
-  padding: 15px 30px;
-  border: 2px solid white;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  }
+    h2 {
+      color: white;
+      margin-bottom: 20px;
+    }
 
-#play-again:hover {
-    background-color: white;
-    color: black;
-}
+    select {
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+      margin-top: 10px;
+    }
+
+    .card {
+      background: #111;
+      color: white;
+      padding: 30px;
+      border-radius: 16px;
+      margin-top: 30px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+    }
+
+    .hint {
+      color: limegreen;
+      margin-top: 10px;
+    }
+
+    .strategy {
+      color: skyblue;
+      font-weight: bold;
+    }
+
+    .controls, .scoring {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #222;
+      color: white;
+      border: 2px solid white;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: white;
+      color: black;
+    }
+
+    #play-again {
+      margin-top: 30px;
+      font-size: 20px;
+    }
+
+    #header-container,
+    #footer-container {
+      width: 100%;
+      position: fixed;
+      left: 0;
+      background-color: #003300;
+      color: white;
+      padding: 10px 20px;
+      z-index: 1000;
+    }
+
+    #header-container {
+      top: 0;
+    }
+
+    #footer-container {
+      bottom: 0;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
-
   <!-- Header -->
-    <div id="header-container" style="width: 100%; padding: 0; margin: 0;"></div>
-  
-  <h2>Blackjack Strategy Flashcards</h2>
+  <div id="header-container"></div>
 
-  <div>
-    <label>Select Difficulty: </label>
-    <select id="difficulty">
-      <option value="easy">Easy (Show Hint)</option>
-      <option value="hard">Hard (No Hint)</option>
-    </select>
-  </div>
+  <main>
+    <h2>Blackjack Strategy Flashcards</h2>
 
-  <div id="card" class="card">
-    <!-- Card content goes here -->
-  </div>
+    <div>
+      <label>Select Difficulty: </label>
+      <select id="difficulty">
+        <option value="easy">Easy (Show Hint)</option>
+        <option value="hard">Hard (No Hint)</option>
+      </select>
+    </div>
 
-  <div class="controls">
-    <button id="prevBtn">⬅ Prev</button>
-    <button id="nextBtn">Next ➡</button>
-  </div>
+    <div id="card" class="card">
+      <!-- Card content goes here -->
+    </div>
 
-  <div class="scoring">
-    <p>Correct: <span id="correctCount">0</span></p>
-    <p>Incorrect: <span id="incorrectCount">0</span></p>
-    <button id="correctBtn">I Got It Right</button>
-    <button id="incorrectBtn">I Got It Wrong</button>
-  </div>
+    <div class="controls">
+      <button id="prevBtn">⬅ Prev</button>
+      <button id="nextBtn">Next ➡</button>
+    </div>
+
+    <div class="scoring">
+      <p>Correct: <span id="correctCount">0</span></p>
+      <p>Incorrect: <span id="incorrectCount">0</span></p>
+      <button id="correctBtn">I Got It Right</button>
+      <button id="incorrectBtn">I Got It Wrong</button>
+    </div>
+
+    <button id="play-again">🔁 Play Again</button>
+  </main>
+
+  <!-- Footer -->
+  <div id="footer-container"></div>
 
   <script src="flashcards.js"></script>
-
-  <div id="footer-container" style="width: 100%; padding: 0; margin: 0; margin-top: auto"></div>
-
   <script>
-    // Load header
     fetch('header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('header-container').innerHTML = data;
-      })
-      .catch(error => console.error('Error loading header:', error));
+      .then(res => res.text())
+      .then(data => document.getElementById('header-container').innerHTML = data);
 
-    // Load footer
     fetch('footer.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('footer-container').innerHTML = data;
-      })
-      .catch(error => console.error('Error loading footer:', error));
+      .then(res => res.text())
+      .then(data => document.getElementById('footer-container').innerHTML = data);
   </script>
 </body>
-
 </html>
