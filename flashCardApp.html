@@ -37,12 +37,33 @@
       margin-bottom: 20px;
     }
 
+    label {
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
     select {
-      padding: 8px;
-      font-size: 16px;
-      border-radius: 5px;
-      border: none;
-      margin-top: 10px;
+  padding: 10px 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 2px solid white;
+  background-color: #000;
+  color: white;
+  margin-top: 10px;
+  font-weight: bold;
+  transition: border 0.3s ease;
+}
+
+select:focus {
+  outline: none;
+  border-color: limegreen;
+}
+.scoring p {
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 10px;
     }
 
     .card {
