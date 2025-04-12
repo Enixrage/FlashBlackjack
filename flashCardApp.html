@@ -20,14 +20,14 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 100px 20px 60px; /* top padding to avoid fixed header overlap */
+      padding: 0;
       box-sizing: border-box;
     }
 
     main {
       width: 100%;
       max-width: 800px;
-      padding: 20px;
+      padding: 140px 20px 80px; /* adjusted padding: 140px top = header height + spacing */
       box-sizing: border-box;
     }
 
@@ -77,26 +77,25 @@
       gap: 10px;
     }
 
-    button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      background-color: #222;
+    .button {
+      background-color: black;
       color: white;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 15px 30px;
       border: 2px solid white;
+      border-radius: 10px;
+      cursor: pointer;
       transition: background-color 0.3s ease;
     }
 
-    button:hover {
+    .button:hover {
       background-color: white;
       color: black;
     }
 
     #play-again {
       margin-top: 30px;
-      font-size: 20px;
     }
 
     #header-container,
@@ -106,7 +105,7 @@
       left: 0;
       background-color: #003300;
       color: white;
-      padding: 10px 20px;
+      padding: 20px;
       z-index: 1000;
     }
 
@@ -140,18 +139,18 @@
     </div>
 
     <div class="controls">
-      <button id="prevBtn">⬅ Prev</button>
-      <button id="nextBtn">Next ➡</button>
+      <button id="prevBtn" class="button">⬅ Prev</button>
+      <button id="nextBtn" class="button">Next ➡</button>
     </div>
 
     <div class="scoring">
       <p>Correct: <span id="correctCount">0</span></p>
       <p>Incorrect: <span id="incorrectCount">0</span></p>
-      <button id="correctBtn">I Got It Right</button>
-      <button id="incorrectBtn">I Got It Wrong</button>
+      <button id="correctBtn" class="button">I Got It Right</button>
+      <button id="incorrectBtn" class="button">I Got It Wrong</button>
     </div>
 
-    <button id="play-again">🔁 Play Again</button>
+    <button id="play-again" class="button">🔁 Play Again</button>
   </main>
 
   <!-- Footer -->
