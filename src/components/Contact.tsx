@@ -1,7 +1,6 @@
 import type { FormEvent } from "react";
 import { useState } from "react";
 
-
 const ContactPage: React.FC = () => {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
 
@@ -29,8 +28,10 @@ const ContactPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center pt-32 px-4
-                    bg-gradient-to-b from-gray-800 via-green-700/70 to-gray-800/40 min-h-screen font-sans">
+    <div
+      className="min-h-screen flex flex-col items-center pt-32 px-4
+                    bg-gradient-to-b from-gray-800 via-green-700/70 to-gray-800/40 font-sans"
+    >
       <div className="max-w-2xl text-center mb-12 text-white">
         <p className="text-lg leading-relaxed">
           Have a suggestion or some feedback for us? Whether it's a tweak to the
@@ -50,25 +51,25 @@ const ContactPage: React.FC = () => {
             name="name"
             placeholder="Your Name"
             required
-            className="w-full p-3 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 rounded-lg bg-white text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             type="email"
             name="email"
             placeholder="Your Email"
             required
-            className="w-full p-3 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 rounded-lg bg-white text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <textarea
             name="message"
             rows={6}
             placeholder="Your Message"
             required
-            className="w-full p-3 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 rounded-lg bg-white text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-vertical"
           />
           <button
             type="submit"
-            className="w-full bg-white text-black font-bold py-3 rounded-lg hover:bg-gray-300 transition"
+            className="w-full !bg-green-600 !text-white font-bold py-3 rounded-lg hover:!bg-green-700 active:!bg-green-800 transition-colors duration-200 cursor-pointer"
           >
             Send Message
           </button>
